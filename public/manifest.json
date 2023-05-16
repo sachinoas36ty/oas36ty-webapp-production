@@ -1,0 +1,8 @@
+{
+    "name": "Oas36ty",
+    "short_name":"Oas36ty",
+    "start_url":"/",
+    "display" : "standalone",
+    "theme_color": "#F75949",
+    "background_color":"#fff"
+}
