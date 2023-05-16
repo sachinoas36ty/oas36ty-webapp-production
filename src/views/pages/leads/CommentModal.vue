@@ -168,109 +168,96 @@
                 <b-form-group>
                   <!-- <quill-editor v-model="tempFields[0].description"
                               :options="editorOption"></quill-editor> -->
-                  <div class="border-l" style="">
-                    <div class="d-flex flex-column">
-                      <div
-                        class="d-flex justify-content-between align-items-center p-1 border-bottom-light bg-light"
-                      >
-                        <div>Attachment(s)</div>
-                        <div>
-                          <input
-                            type="file"
-                            ref="file_task"
-                            @change="handleUpload"
-                            style="display: none;"
-                          />
-                          <b-dropdown
-                            id="file_drop"
-                            class=""
-                            style="width: 50%;"
-                            variant="primary"
-                          >
-                            <template #button-content>
-                              <span class="text-capitalize">
-                                Choose File(s)
-                              </span>
-                            </template>
-                            <b-dropdown-item @click="$refs.file_task.click()"
-                              ><img
-                                class="mr-1"
-                                :src="browseIcon"
-                                width="25px"
-                              />Browse</b-dropdown-item
-                            >
-                            <b-dropdown-item
-                              ><img
-                                class="mr-1"
-                                :src="excelIcon"
-                                width="25px"
-                                data-type="1"
-                              />Google Sheets</b-dropdown-item
-                            >
-                            <b-dropdown-item
-                              ><img
-                                class="mr-1"
-                                :src="wordIcon"
-                                width="25px"
-                                data-type="2"
-                              />Google Docs</b-dropdown-item
-                            >
-                            <b-dropdown-item
-                              ><img
-                                class="mr-1"
-                                :src="slideIcon"
-                                width="25px"
-                                data-type="3"
-                              />Google Slides</b-dropdown-item
-                            >
-
-                            <!-- <b-dropdown-item>
-      
-      </b-dropdown-item> -->
-                          </b-dropdown>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="p-1">
-                      <div
-                        class="d-flex justify-content-center"
-                        v-if="attachmentLoading"
-                      >
-                        <b-spinner variant="primary" />
-                      </div>
-                      <div v-else-if="file_name.length">
-                        <div
-                          v-for="(file, index) in fileLinks"
-                          :key="index"
-                          class="d-flex justify-content-between"
-                        >
-                          {{ file.fileName }}
-                          <feather-icon
-                            icon="XIcon"
-                            class="cursor-pointer"
-                            @click="removes3(file.url, index)"
-                          />
-                        </div>
-                      </div>
-                      <div
-                        v-else
-                        class="d-flex justify-content-center align-items-center"
-                      >
-                        No file(s) selected
-                      </div>
-                    </div>
-                    <!-- <div class="d-flex justify-content-between align-items-center p-1">
-                                  <div v-if="file_name.length > 0">{{ file_name }} <feather-icon icon="XIcon"
-                            class="cursor-pointer" @click="removes3(file.url, index)" /></div>
-                                  <div v-else>No file(s) selected</div>
+                              <div class="border-l" style="">
+                                <div class="d-flex flex-column">
+                                  <div
+                                    class="d-flex justify-content-between align-items-center p-1 border-bottom-light bg-light"
+                                  >
+                                    <div>Attachment</div>
+                                    <div>
+                                      <input
+                                        type="file"
+                                        ref="file_task"
+                                        style="display: none;"
+                                        @change="uploadFile"
+                                      />
+                                      <b-dropdown
+                                        id="file_drop"
+                                        class=""
+                                        style="width: 50%;"
+                                        variant="primary"
+                                      >
+                                        <template #button-content>
+                                          <span class="text-capitalize">
+                                            Choose File
+                                          </span>
+                                        </template>
+                                        <b-dropdown-item @click="$refs.file_task.click()"
+                                          ><img
+                                            class="mr-1"
+                                            :src="browseIcon"
+                                            width="25px"
+                                          />Browse</b-dropdown-item
+                                        >
+                                        <b-dropdown-item
+                                          ><img
+                                            class="mr-1"
+                                            :src="excelIcon"
+                                            width="25px"
+                                            data-type="1"
+                                          />Google Sheets</b-dropdown-item
+                                        >
+                                        <b-dropdown-item
+                                          ><img
+                                            class="mr-1"
+                                            :src="wordIcon"
+                                            width="25px"
+                                            data-type="2"
+                                          />Google Docs</b-dropdown-item
+                                        >
+                                      </b-dropdown>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div
+                                  class="d-flex justify-content-between align-items-center p-1"
+                                >
+                                  <div v-if="file_name && fileLinks.length === 0">
+                                    No file selected
+                                  </div>
+                                  <div v-else-if="file_name && fileLinks">
+                                    <div
+                                      v-for="(file, index) in fileLinks"
+                                      :key="index"
+                                      class="d-flex justify-content-between"
+                                    >
+                                      <span v-if="file_name.name === file.fileName">
+                                        {{ file.fileName }}
+                                        <feather-icon
+                                          icon="XIcon"
+                                          class="cursor-pointer"
+                                          @click="removes3(file.url, index)"
+                                        />
+                                      </span>
+                                    </div>
+                                  </div>
+            
+                                  <div v-else>No file selected</div>
                                   <b-media-aside class="mr-0">
-                                      <b-img v-if="file !== null && previewImage != null" id="ref_image_base_64"
-                                          ref="refPreviewEl" v-model="image" :src="previewImage" height="40"
-                                          width="40" rounded="circle" class=" border border-l" />
-      
+                                    <b-img
+                                      v-if="file !== null && previewImage != null"
+                                      id="ref_image_base_64"
+                                      ref="refPreviewEl"
+                                      v-model="image"
+                                      :src="previewImage"
+                                      height="40"
+                                      width="40"
+                                      rounded="circle"
+                                      class="border border-l"
+                                    />
                                   </b-media-aside>
-                              </div> -->
-                  </div>
+                                </div>
+                              </div>
                 </b-form-group>
               </b-col>
             </b-row>
@@ -417,6 +404,15 @@ export default {
       file_name: [],
       date: `${year}-0${month}-${day}`,
       expense: null,
+      fileLinks: [],
+      browseIcon: browseIcon,
+      slideIcon: slideIcon,
+      wordIcon: wordIcon,
+      excelIcon: excelIcon,
+      previewImage: null,
+      file: null,
+      image: null,
+      base64data: "",
     }
   },
   directives: {
@@ -435,6 +431,117 @@ export default {
     },
   },
   methods: {
+    async uploadFile(e) {
+      let image = e.target.files;
+      // const existingFileNames = image.map(file => file.name)
+      // const duplicateFiles = image.filter(file => existingFileNames.includes(file.name))
+
+      let image_name = []
+      const filePathsPromises = [];
+      // if(duplicateFiles.length > 0){
+
+      image.forEach(file => {
+        filePathsPromises.push(this.base64(file));
+        image_name.push(file.name)
+        // filePathsPromises.push(file.name)
+      });
+      const filePaths = await Promise.all(filePathsPromises, image_name);
+      const mappedFiles = filePaths.map((base64File, image_name) => ({
+        file: base64File,
+        name: image[image_name].name,
+        type: 'task'
+      }));
+
+      let tempFile = mappedFiles
+
+      let readyUpload = [];
+      tempFile.forEach((obj2) => {
+        const exists = this.file_name.some((obj1) => obj1.name === obj2.name);
+        if (!exists) {
+          console.log("not duplicate");
+          this.file_name.push(obj2);
+          readyUpload.push(obj2);
+        }
+      });
+
+      // tempFile.forEach((obj2) => {
+      //   const exists = this.file_name.some(obj1 => obj1.name === obj2.name);
+      //   if (!exists) {
+      //     console.log("not duplicate")
+      //     // obj2.type ='attachmentsType';
+      //     this.file_name.push(obj2);
+      //   }
+      // })
+
+      console.log(mappedFiles);
+
+      this.uploadFileS3(readyUpload)
+      e.target.value = ''
+
+
+    },
+    async uploadFileClient(e) {
+      let image = e.target.files;
+      let image_name = []
+      const filePathsPromises = [];
+      image.forEach(file => {
+        filePathsPromises.push(this.base64(file));
+        image_name.push(file.name)
+        // filePathsPromises.push(file.name)
+      });
+      const filePaths = await Promise.all(filePathsPromises, image_name);
+      const mappedFiles = filePaths.map((base64File, image_name) => ({
+        file: base64File,
+        name: image[image_name].name,
+        type: 'company'
+      }));
+
+      let tempFile = mappedFiles
+
+      let readyUpload = [];
+      tempFile.forEach((obj2) => {
+        const exists = this.file_name.some((obj1) => obj1.name === obj2.name);
+        if (!exists) {
+          console.log("not duplicate");
+          this.file_name.push(obj2);
+          readyUpload.push(obj2);
+        }
+      });
+
+      // tempFile.forEach((obj2) => {
+      //   const exists = this.file_name.some(obj1 => obj1.name === obj2.name);
+      //   if (!exists) {
+      //     console.log("not duplicate")
+      //     // obj2.type ='attachmentsType';
+      //     this.file_name.push(obj2);
+      //   }
+      // })
+
+      console.log(mappedFiles);
+      this.uploadFileS3(readyUpload)
+      e.target.value = ''
+
+
+    },
+    base64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = (error) => reject(error);
+      });
+    },
+    uploadFileS3(file) {
+      let data = {
+        attach: file ? file : "null",
+      };
+      this.$store
+        .dispatch("attachments/add", { data: data })
+        .then(() => {
+          resolve();
+        })
+        .catch(() => { });
+    },
     removes3(file, i) {
       console.log("bbbb")
       var data = {
@@ -442,28 +549,14 @@ export default {
       }
       this.$store.dispatch("attachments/remove", { data: data }).then(() => {
         this.$store.state.attachments.links.splice(i, 1)
-        this.file_name.splice(i, 1)
-      })
-    },
-
-    handleUpload(e) {
-      // console.log(e);
-      let image = e.target.files[0]
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        let data = {
-          file: e.target.result,
-          name: image.name,
+        const index = this.allFile.findIndex(
+          (file) => file.name === this.file_name.name
+        )
+        if (index !== -1) {
+          this.allFile.splice(index, 1)
         }
-        //   console.log("data:", data)
-        //   console.log("inside onload before:", this.file_name)
-        this.file_name.push(data)
-        //   console.log("inside onload:", this.file_name)
-        //   console.log("inside onload:", this.file_name.length)
-        this.uploadFileS3(this.file_name)
-      }
-      reader.readAsDataURL(image)
-      e.target.value = ""
+        this.file_name = null
+      })
     },
     isNumber(ev) {
       const keysAllowed = [
