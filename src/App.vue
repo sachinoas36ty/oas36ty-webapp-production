@@ -1,7 +1,5 @@
-
-
 <template>
-  <div  id="app" class="h-100" :class="[skinClasses]">
+  <div id="app" class="h-100" :class="[skinClasses]">
     <!-- <snackbar ref="snackbar" class="hello" position="bottom-left" :multiple="false" style="z-index: 2000;" /> -->
     <invite-user-vue />
     <create-branch-vue />
@@ -13,19 +11,22 @@
     <ProfileModal />
     <addExpense />
     <google-drive />
-    <excel-drive/>
+    <excel-drive />
     <SendEmail />
+    <todo-template />
+    <comment-modal />
+    <files-modal/>
     <!-- <PaymentsModal /> -->
     <LeadsModal />
     <!-- <CategoryModal/> -->
     <ProposalTemplateModal />
-    <FollowUp/>
+    <FollowUp />
     <officeTimings />
     <BankDetailsModal />
     <subtaskGlobal />
     <InvoiceModal />
     <TaskModal />
-    <DueDateModal/>
+    <DueDateModal />
     <ProposalModal />
     <TimsheetModal />
 
@@ -33,15 +34,28 @@
     <component :is="layout">
       <router-view />
     </component>
-    <b-modal no-close-on-esc hide-header-close no-close-on-backdrop id="timesheet-alert" ref="timesheet-alert" size="md" title="timesheet alert"
-      hide-footer>
+    <b-modal
+      no-close-on-esc
+      hide-header-close
+      no-close-on-backdrop
+      id="timesheet-alert"
+      ref="timesheet-alert"
+      size="md"
+      title="timesheet alert"
+      hide-footer
+    >
       You have Pending Time Sheet Entry !
       <div class="text-right mt-1">
-
-        <b-button class="mr-1" size="sm" variant="primary" @click="logout" >
+        <b-button class="mr-1" size="sm" variant="primary" @click="logout">
           Sign Out!
         </b-button>
-        <b-button class="" size="sm" variant="primary" @click="$refs['timesheet-alert'].hide()" v-b-modal.timesheet-modal>
+        <b-button
+          class=""
+          size="sm"
+          variant="primary"
+          @click="$refs['timesheet-alert'].hide()"
+          v-b-modal.timesheet-modal
+        >
           Update Timesheet
         </b-button>
       </div>
@@ -50,61 +64,65 @@
 </template>
 
 <script>
-
-import DueDateModal from './views/pages/tasks/DueDateModal.vue';
+import DueDateModal from "./views/pages/tasks/DueDateModal.vue"
 // console.log(document.getElementsByClassName('modal-header'))
-import './index.css'
+import "./index.css"
 // This will be populated in `beforeCreate` hook
-import { $themeColors, $themeBreakpoints, $themeConfig } from '@themeConfig'
-import '@mathieustan/vue-datepicker/dist/vue-datepicker.min.css';
-import subtaskGlobal from './views/pages/templates/subtaskGlobal.vue'
-import { provideToast } from 'vue-toastification/composition'
-import { watch } from '@vue/composition-api'
-import useAppConfig from '@core/app-config/useAppConfig'
-import officeTimings from './views/pages/settings/officeTimings.vue';
-import InviteUserVue from './views/pages/users/InviteUser.vue'
-import TimsheetModal from './views/pages/settings/TimsheetModal.vue';
-import CreateCategoryVue from './views/pages/categories/CreateCategory.vue'
-import SendEmail from './views/pages/Accounts/SendEmail.vue'
-import CreateBranchVue from './views/pages/branches/CreateBranch.vue'
-import CreateClientVue from './views/pages/clients/CreateClient.vue'
-import CreateDesignationVue from './views/pages/settings/createDesignation.vue'
-import CreateLead from './views/pages/leads/CreateLead.vue'
-import FollowUp from './views/pages/leads/FollowUpModal.vue'
+import { $themeColors, $themeBreakpoints, $themeConfig } from "@themeConfig"
+import "@mathieustan/vue-datepicker/dist/vue-datepicker.min.css"
+import subtaskGlobal from "./views/pages/templates/subtaskGlobal.vue"
+import { provideToast } from "vue-toastification/composition"
+import { watch } from "@vue/composition-api"
+import useAppConfig from "@core/app-config/useAppConfig"
+import officeTimings from "./views/pages/settings/officeTimings.vue"
+import InviteUserVue from "./views/pages/users/InviteUser.vue"
+import TimsheetModal from "./views/pages/settings/TimsheetModal.vue"
+import CreateCategoryVue from "./views/pages/categories/CreateCategory.vue"
+import SendEmail from "./views/pages/Accounts/SendEmail.vue"
+import CreateBranchVue from "./views/pages/branches/CreateBranch.vue"
+import CreateClientVue from "./views/pages/clients/CreateClient.vue"
+import CreateDesignationVue from "./views/pages/settings/createDesignation.vue"
+import CreateLead from "./views/pages/leads/CreateLead.vue"
+import FollowUp from "./views/pages/leads/FollowUpModal.vue"
 
-import addExpense from './views/pages/Accounts/addExpense.vue';
-import PaymentsModal from './views/pages/Accounts/PaymentsModal.vue'
-import CreateContactVue from './views/pages/contact-people/CreateContact.vue'
-import { BButton } from 'bootstrap-vue';
+import addExpense from "./views/pages/Accounts/addExpense.vue"
+import PaymentsModal from "./views/pages/Accounts/PaymentsModal.vue"
+import CreateContactVue from "./views/pages/contact-people/CreateContact.vue"
+import { BButton } from "bootstrap-vue"
 // import EmailSendModal from '/./views/pages/EmailSendModal.vue'
-import { useWindowSize, useCssVar } from '@vueuse/core'
-import Snackbar from 'vuejs-snackbar'
-import store from '@/store'
-import ProfileModal from './layouts/components/ProfileModal.vue';
-import LeadsModal from './views/pages/leads/LeadsModal.vue'
-import GoogleDrive from './views/pages/leads/GoogleDriveModal.vue'
-import ExcelDrive from './views/pages/leads/GoogleDriveExcel.vue'
+import { useWindowSize, useCssVar } from "@vueuse/core"
+import Snackbar from "vuejs-snackbar"
+import store from "@/store"
+import ProfileModal from "./layouts/components/ProfileModal.vue"
+import LeadsModal from "./views/pages/leads/LeadsModal.vue"
+import GoogleDrive from "./views/pages/leads/GoogleDriveModal.vue"
+import ExcelDrive from "./views/pages/leads/GoogleDriveExcel.vue"
 
+import CategoryModal from "./views/pages/categories/CategoryModal.vue"
+import ProposalTemplateModal from "./views/pages/templates/ProposalTemplateModal.vue"
+import TodoTemplate from "./views/pages/templates/todoTemplate.vue"
+import CommentModal from "./views/pages/leads/CommentModal.vue"
+import FilesModal from './views/pages/leads/FilesModal.vue'
 
-import CategoryModal from './views/pages/categories/CategoryModal.vue'
-import ProposalTemplateModal from './views/pages/templates/ProposalTemplateModal.vue'
-import BankDetailsModal from './views/pages/bank_details/BankDetailsModal.vue'
+import BankDetailsModal from "./views/pages/bank_details/BankDetailsModal.vue"
 // import RecordPaymentModal from './views/pages/tasks/RecordPaymentModal.vue'
-import InvoiceModal from './views/pages/Accounts/InvoiceModal.vue'
-import TaskModal from './views/pages/tasks/TaskModal.vue'
-import ProposalModal from './views/pages/Accounts/ProposalModal.vue'
-import pages from './router/routes/pages';
-import { toHex } from 'zrender/lib/tool/color';
-import { isUserLoggedIn } from './auth/utils';
-const LayoutVertical = () => import('@/layouts/vertical/LayoutVertical.vue')
-const LayoutHorizontal = () => import('@/layouts/horizontal/LayoutHorizontal.vue')
-const LayoutFull = () => import('@/layouts/full/LayoutFull.vue')
+import InvoiceModal from "./views/pages/Accounts/InvoiceModal.vue"
+import TaskModal from "./views/pages/tasks/TaskModal.vue"
+import ProposalModal from "./views/pages/Accounts/ProposalModal.vue"
+import pages from "./router/routes/pages"
+import { toHex } from "zrender/lib/tool/color"
+import { isUserLoggedIn } from "./auth/utils"
+const LayoutVertical = () => import("@/layouts/vertical/LayoutVertical.vue")
+const LayoutHorizontal = () =>
+  import("@/layouts/horizontal/LayoutHorizontal.vue")
+const LayoutFull = () => import("@/layouts/full/LayoutFull.vue")
 // import {routes}
 export default {
   components: {
     DueDateModal,
     CreateCategoryVue,
-    CreateBranchVue, CreateDesignationVue,
+    CreateBranchVue,
+    CreateDesignationVue,
     TimsheetModal,
     CreateClientVue,
     ProposalTemplateModal,
@@ -114,6 +132,9 @@ export default {
     // RecordPaymentModal,
     FollowUp,
     InvoiceModal,
+    TodoTemplate,
+    CommentModal,
+    FilesModal,
     TaskModal,
     ProposalModal,
     officeTimings,
@@ -133,7 +154,7 @@ export default {
     LayoutVertical,
     LayoutFull,
     InviteUserVue,
-    ProfileModal
+    ProfileModal,
   },
   data() {
     return {
@@ -144,45 +165,50 @@ export default {
     this.setLocalStoragePrivilege()
   },
   beforeUpdate() {
-    let loggedIn = isUserLoggedIn();
+    let loggedIn = isUserLoggedIn()
     // if(!loggedIn || this.$router.currentRoute.name === 'auth-login'){
     //   this.$refs['timesheet-alert'].hide()
     // }
     let route = this.$router.currentRoute.name
-    if (loggedIn &&  route !== 'auth-login' ) {
-      let data = JSON.parse(localStorage.getItem('userTimesheet'))
+    if (loggedIn && route !== "auth-login") {
+      let data = JSON.parse(localStorage.getItem("userTimesheet"))
       if (data === null) {
-        this.$refs['timesheet-alert'].show()
+        this.$refs["timesheet-alert"].show()
       } else if (data.latest_date) {
         let date = new Date(data.latest_date)
-        let original = `${date.getFullYear()}-${date.getMonth() < 10 ? '0' + date.getMonth() : date.getMonth()}-${date.getDate() < 10 ? '0' + date.getDate() : date.getDate()}`
+        let original = `${date.getFullYear()}-${
+          date.getMonth() < 10 ? "0" + date.getMonth() : date.getMonth()
+        }-${date.getDate() < 10 ? "0" + date.getDate() : date.getDate()}`
         let curentDate = new Date()
-        let original_curr = `${curentDate.getFullYear()}-${curentDate.getMonth() < 10 ? '0' + curentDate.getMonth() : curentDate.getMonth()}-${curentDate.getDate() < 10 ? '0' + curentDate.getDate() : curentDate.getDate()}`
+        let original_curr = `${curentDate.getFullYear()}-${
+          curentDate.getMonth() < 10
+            ? "0" + curentDate.getMonth()
+            : curentDate.getMonth()
+        }-${
+          curentDate.getDate() < 10
+            ? "0" + curentDate.getDate()
+            : curentDate.getDate()
+        }`
 
-        let hour = new Date('2023-04-13 ' + data.total_worked_hour)
+        let hour = new Date("2023-04-13 " + data.total_worked_hour)
         // if(date.getDate() !== curentDate.getDate() && hour.getHours() < 7){
         if (original !== original_curr && hour.getHours() < 7) {
-
-          this.$refs['timesheet-alert'].show()
-
+          this.$refs["timesheet-alert"].show()
         }
       }
-    }else{
-      this.$refs['timesheet-alert'].hide()
-
+    } else {
+      this.$refs["timesheet-alert"].hide()
     }
     this.setLocalStoragePrivilege()
-
   },
   updated() {
     this.setLocalStoragePrivilege()
-    
   },
   // ! We can move this computed: layout & contentLayoutType once we get to use Vue 3
   // Currently, router.currentRoute is not reactive and doesn't trigger any change
   computed: {
     layout() {
-      if (this.$route.meta.layout === 'full') return 'layout-full'
+      if (this.$route.meta.layout === "full") return "layout-full"
       return `layout-${this.contentLayoutType}`
     },
     contentLayoutType() {
@@ -191,7 +217,7 @@ export default {
   },
   methods: {
     reset_store_variables() {
-      let stor = this.$store.state;
+      let stor = this.$store.state
       stor.expenses.all = []
       stor.expenses.single = []
       stor.expenses.errors = {}
@@ -200,17 +226,14 @@ export default {
       stor.categories.single = []
       stor.categories.errors = {}
 
-
       stor.designation.all = []
       stor.designation.single = []
       stor.designation.errors = {}
-
 
       stor.status.all = []
       stor.status.all_master = []
       stor.status.single = []
       stor.status.errors = {}
-
 
       stor.clients.all = []
       stor.clients.single = []
@@ -245,7 +268,6 @@ export default {
       stor.invoice.single = []
       stor.invoice.errors = {}
 
-
       stor.recordPayment.all = []
       stor.recordPayment.allData = []
       stor.recordPayment.single = []
@@ -257,7 +279,6 @@ export default {
 
       stor.proposals.single = []
       stor.proposals.errors = {}
-
 
       stor.leads.all = []
       stor.leads.filter = []
@@ -286,7 +307,6 @@ export default {
       stor.branches.logo = []
 
       stor.branches.errors = {}
-
     },
 
     logout() {
@@ -294,8 +314,7 @@ export default {
       // this.$refs.snackbar[t](this.$store.state.auth.successMessage)
 
       this.$store.dispatch("auth/logout").then(() => {
-
-        this.$toast.success('Logged Out Successfully!', {
+        this.$toast.success("Logged Out Successfully!", {
           position: "bottom-left",
           timeout: 5000,
           closeOnClick: true,
@@ -307,9 +326,9 @@ export default {
           hideProgressBar: true,
           closeButton: "button",
           icon: true,
-          rtl: false
-        });
-        this.$router.push({ name: "auth-login" });
+          rtl: false,
+        })
+        this.$router.push({ name: "auth-login" })
         // storeAll.commit('branches','RESET_STATE')
         //         let state = this.$store.state;
         // let newState = {};
@@ -320,8 +339,7 @@ export default {
         // });
 
         // this.$store.replaceState({});
-
-      });
+      })
       // var t = 'info';
       //   this.$refs.snackbar[t]('You have successfully logged out!')
       // if(this.isLogout == true){
@@ -331,33 +349,33 @@ export default {
       // }
     },
     setLocalStoragePrivilege() {
-      this.$store.state.designation.all.forEach(element => {
-        element.users.forEach(x => {
-          if (x.email === JSON.parse(localStorage.getItem('userData')).email) {
-            const data = { id: element.id, designation_name: element.designation_name, masters: element.masters }
+      this.$store.state.designation.all.forEach((element) => {
+        element.users.forEach((x) => {
+          if (x.email === JSON.parse(localStorage.getItem("userData")).email) {
+            const data = {
+              id: element.id,
+              designation_name: element.designation_name,
+              masters: element.masters,
+            }
             // localStorage.removeItem('privileges')
-            localStorage.setItem('privileges', JSON.stringify(data))
-
-
+            localStorage.setItem("privileges", JSON.stringify(data))
           } else {
             // localStorage.removeItem('privileges')
-
           }
-        });
-      });
+        })
+      })
     },
     async accept() {
       this.showUpgradeUI = false
-      await this.$workbox.messageSW({ type: "SKIP_WAITING" });
-    }
+      await this.$workbox.messageSW({ type: "SKIP_WAITING" })
+    },
   },
   created() {
-
-    console.log();
+    console.log()
     if (this.$workbox) {
       this.$workbox.addEventListener("waiting", () => {
-        this.showUpgradeUI = true;
-      });
+        this.showUpgradeUI = true
+      })
     }
     //     setTimeout(() => {
     //   for (let i in routes[0].children ){
@@ -375,32 +393,48 @@ export default {
     // }
   },
   beforeCreate() {
-
     // Set colors in theme
-    const colors = ['primary', 'secondary', 'success', 'info', 'warning', 'danger', 'light', 'dark']
+    const colors = [
+      "primary",
+      "secondary",
+      "success",
+      "info",
+      "warning",
+      "danger",
+      "light",
+      "dark",
+    ]
 
     // eslint-disable-next-line no-plusplus
     for (let i = 0, len = colors.length; i < len; i++) {
-      $themeColors[colors[i]] = useCssVar(`--${colors[i]}`, document.documentElement).value.trim()
+      $themeColors[colors[i]] = useCssVar(
+        `--${colors[i]}`,
+        document.documentElement
+      ).value.trim()
     }
 
     // Set Theme Breakpoints
-    const breakpoints = ['xs', 'sm', 'md', 'lg', 'xl']
+    const breakpoints = ["xs", "sm", "md", "lg", "xl"]
 
     // eslint-disable-next-line no-plusplus
     for (let i = 0, len = breakpoints.length; i < len; i++) {
-      $themeBreakpoints[breakpoints[i]] = Number(useCssVar(`--breakpoint-${breakpoints[i]}`, document.documentElement).value.slice(0, -2))
+      $themeBreakpoints[breakpoints[i]] = Number(
+        useCssVar(
+          `--breakpoint-${breakpoints[i]}`,
+          document.documentElement
+        ).value.slice(0, -2)
+      )
     }
 
     // Set RTL
     const { isRTL } = $themeConfig.layout
-    document.documentElement.setAttribute('dir', isRTL ? 'rtl' : 'ltr')
+    document.documentElement.setAttribute("dir", isRTL ? "rtl" : "ltr")
   },
   setup() {
     const { skin, skinClasses } = useAppConfig()
 
     // If skin is dark when initialized => Add class to body
-    if (skin.value === 'dark') document.body.classList.add('dark-layout')
+    if (skin.value === "dark") document.body.classList.add("dark-layout")
 
     // Provide toast for Composition API usage
     // This for those apps/components which uses composition API
@@ -411,14 +445,14 @@ export default {
       closeButton: false,
       icon: false,
       timeout: 3000,
-      transition: 'Vue-Toastification__fade',
+      transition: "Vue-Toastification__fade",
     })
 
     // Set Window Width in store
-    store.commit('app/UPDATE_WINDOW_WIDTH', window.innerWidth)
+    store.commit("app/UPDATE_WINDOW_WIDTH", window.innerWidth)
     const { width: windowWidth } = useWindowSize()
-    watch(windowWidth, val => {
-      store.commit('app/UPDATE_WINDOW_WIDTH', val)
+    watch(windowWidth, (val) => {
+      store.commit("app/UPDATE_WINDOW_WIDTH", val)
     })
 
     return {

@@ -32,12 +32,6 @@ hide-footer>
                         <!-- </b-form-input> -->
                     </b-form-group>
                 </validation-provider>
-            </b-col>
-        </b-row>
-        <b-row class="mt-1">
-
-            <b-col md="6">
-
                 <validation-provider #default="validationContext" name="title" vid="title"
                     rules="required">
                     <b-form-group>
