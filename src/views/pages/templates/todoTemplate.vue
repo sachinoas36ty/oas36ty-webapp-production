@@ -205,7 +205,7 @@
           <div class="text-right mt-3">
             <b-button size="sm" class="mr-1" type="reset" @click="() => {
                remove_all_fields()
-               $refs['template-modal-global'].hide()
+               $refs['todo-modal'].hide()
            }" variant="primary">
                Cancel
            </b-button>
