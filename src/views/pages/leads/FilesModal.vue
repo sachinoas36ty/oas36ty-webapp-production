@@ -537,9 +537,9 @@ export default {
         task_id: this.formData.task.id,
         attachment: file,
         company_id: this.formData.task.company_id,
-        type: "task",
+        type: this.formData.task.type,
       }
-      console.log(this.fileLinks)
+      console.log(this.formData)
       // attachment_url
       // file_name
       // comment: this.formData.description,
