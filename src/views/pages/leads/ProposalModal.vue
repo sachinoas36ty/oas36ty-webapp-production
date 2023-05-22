@@ -1,54 +1,93 @@
 <template>
-    <div>
-        <b-modal no-close-on-backdrop id="proposal-new-modal" ref="proposal-new-modal" size="lg" title="Add proposal" hide-footer>
+  <div>
+    <b-modal
+      no-close-on-backdrop
+      id="proposal-new-modal"
+      ref="proposal-new-modal"
+      size="lg"
+      title="Add proposal"
+      hide-footer
+      class="b-overlay position-relative"
+    >
       <!-- <b-card-body> -->
       <ValidationObserver #default="{ handleSubmit }" ref="refFormObserver">
         <b-form @submit.prevent="handleSubmit(addProposal)">
           <b-row>
             <b-col md="6">
-              <ValidationProvider #default="validationContext" name="pclient" vid="clients" rules="required">
-
-              <b-form-group>
-                <template #label>
-                  Client *
-                  <feather-icon icon="EditIcon" class="cursor-pointer" @click="
-                    () => {
-                      (ClientisEditSidebarActive = true),
-                        (editItemClient = pclient);
-                    }
-                  " />
-                </template>
-                <v-select id="clients" v-on:input="autofillClient" label="name" v-model="pclient" placeholder="Search Client"
-                  class="select-size-md my-custom-select" :options="show_companys">
-                  <template #list-header>
-                    <div class="ml-2 mb-1 mt-1" v-b-modal.modal-clients>
-                      <!--  <b-button size="sm" variant="primary"   v-b-modal.modal-1>
+              <ValidationProvider
+                #default="validationContext"
+                name="pclient"
+                vid="clients"
+                rules="required"
+              >
+                <b-form-group>
+                  <template #label>
+                    Client *
+                    <feather-icon
+                      icon="EditIcon"
+                      class="cursor-pointer"
+                      @click="
+                        () => {
+                          ;(ClientisEditSidebarActive = true),
+                            (editItemClient = pclient)
+                        }
+                      "
+                    />
+                  </template>
+                  <v-select
+                    id="clients"
+                    v-on:input="autofillClient"
+                    label="name"
+                    v-model="pclient"
+                    placeholder="Search Client"
+                    class="select-size-md my-custom-select"
+                    :options="show_companys"
+                  >
+                    <template #list-header>
+                      <div class="ml-2 mb-1 mt-1" v-b-modal.modal-clients>
+                        <!--  <b-button size="sm" variant="primary"   v-b-modal.modal-1>
 
                   <feather-icon size="14" style="margin-right: 0.5rem;"  icon="SearchIcon" /> Add Contacts</b-button> -->
-                      <a href="#">
-                        <feather-icon size="14" style="margin-right: 0.5rem;" icon="PlusIcon" />
-                        New Client</a>
-                    </div>
-                  </template>
-                </v-select>
-                <b-form-invalid-feedback class="d-block">
+                        <a href="#">
+                          <feather-icon
+                            size="14"
+                            style="margin-right: 0.5rem;"
+                            icon="PlusIcon"
+                          />
+                          New Client</a
+                        >
+                      </div>
+                    </template>
+                  </v-select>
+                  <b-form-invalid-feedback class="d-block">
                     {{ validationContext.errors[0] }}
                   </b-form-invalid-feedback>
-              </b-form-group>
+                </b-form-group>
               </ValidationProvider>
             </b-col>
             <b-col md="6">
               <b-form-group label="Contact">
-                <v-select v-on:input="autofillContact" v-model="pcontact" placeholder="Search Contact"
-                  class="select-size-md my-custom-select" label="name" :options="show_contactPerson">
+                <v-select
+                  v-on:input="autofillContact"
+                  v-model="pcontact"
+                  placeholder="Search Contact"
+                  class="select-size-md my-custom-select"
+                  label="name"
+                  :options="show_contactPerson"
+                >
                   <template #list-header>
                     <div class="ml-2 mb-1 mt-1" v-b-modal.modal-contact>
                       <!--  <b-button size="sm" variant="primary"   v-b-modal.modal-1>
 
                   <feather-icon size="14" style="margin-right: 0.5rem;"  icon="SearchIcon" /> Add Contacts</b-button> -->
                       <a href="#">
-                        <feather-icon size="14" style="margin-right: 0.5rem;" icon="PlusIcon" />
-                        New Contact</a>
+                        <feather-icon
+                          size="14"
+                          style="margin-right: 0.5rem;"
+                          icon="PlusIcon"
+                        />
+                        New Contact</a
+                      >
                     </div>
                   </template>
                 </v-select>
@@ -59,14 +98,22 @@
           <b-row>
             <b-col md="6">
               <b-form-group label="Client Name">
-                <b-form-input v-model="pname" placeholder="Enter Client Name"  class="my-custom-select"/>
+                <b-form-input
+                  v-model="pname"
+                  placeholder="Enter Client Name"
+                  class="my-custom-select"
+                />
 
                 <!-- </b-form-input> -->
               </b-form-group>
             </b-col>
             <b-col md="6">
               <b-form-group label="Concerned Person">
-                <b-form-input v-model="pperson" placeholder="Enter Concerned Person" class="my-custom-select"/>
+                <b-form-input
+                  v-model="pperson"
+                  placeholder="Enter Concerned Person"
+                  class="my-custom-select"
+                />
 
                 <!-- </b-form-input> -->
               </b-form-group>
@@ -76,15 +123,30 @@
             <b-col md="6">
               <b-form-group label="Proposal Date">
                 <!-- <b-form-input v-model="pdate" placeholder="Enter Date" /> -->
-                <VueDatePicker format="DD-MM-YYYY" :minDate="currentDate" style="border:1px solid #d8d6de;border-radius: 0.357rem;" id="proposalDate" v-model="pdate" />
+                <VueDatePicker
+                  format="DD-MM-YYYY"
+                  :minDate="currentDate"
+                  style="border: 1px solid #d8d6de; border-radius: 0.357rem;"
+                  id="proposalDate"
+                  v-model="pdate"
+                />
                 <!-- </b-form-input> -->
               </b-form-group>
             </b-col>
             <b-col md="6">
-              <ValidationProvider #default="validationContext" name="paddress" vid="address" rules="required">
+              <ValidationProvider
+                #default="validationContext"
+                name="paddress"
+                vid="address"
+                rules="required"
+              >
                 <b-form-group label="Address *">
-                  <b-form-textarea   id="address" v-model="paddress"
-                    placeholder="Enter Address" class="my-custom-select"/>
+                  <b-form-textarea
+                    id="address"
+                    v-model="paddress"
+                    placeholder="Enter Address"
+                    class="my-custom-select"
+                  />
                   <b-form-invalid-feedback class="d-block">
                     {{ validationContext.errors[0] }}
                   </b-form-invalid-feedback>
@@ -96,7 +158,11 @@
           <b-row>
             <b-col md="12">
               <b-form-group label="Subject">
-                <b-form-input v-model="psubject" placeholder="Enter Subject" class="my-custom-select">
+                <b-form-input
+                  v-model="psubject"
+                  placeholder="Enter Subject"
+                  class="my-custom-select"
+                >
                 </b-form-input>
               </b-form-group>
             </b-col>
@@ -104,7 +170,11 @@
           <b-row>
             <b-col md="12">
               <b-form-group label="Prephase">
-                <b-form-input v-model="pphrase" placeholder="Enter Prephase" class="my-custom-select">
+                <b-form-input
+                  v-model="pphrase"
+                  placeholder="Enter Prephase"
+                  class="my-custom-select"
+                >
                 </b-form-input>
               </b-form-group>
             </b-col>
@@ -112,16 +182,27 @@
           <b-row v-for="(items, index) in proposalFields" :key="items.proposal">
             <b-col md="12">
               <b-form-group label="Title">
-                <b-form-input v-model="items.title" placeholder="Enter Title" class="my-custom-select">
+                <b-form-input
+                  v-model="items.title"
+                  placeholder="Enter Title"
+                  class="my-custom-select"
+                >
                 </b-form-input>
               </b-form-group>
             </b-col>
             <b-col md="12">
               <b-form-group label="Description">
-                <quill-editor v-model="items.desc" :options="editorOption"></quill-editor>
+                <quill-editor
+                  v-model="items.desc"
+                  :options="editorOption"
+                ></quill-editor>
               </b-form-group>
               <div class="text-right">
-                <b-button size="sm" @click="removeProposal(index)" variant="outline-primary">
+                <b-button
+                  size="sm"
+                  @click="removeProposal(index)"
+                  variant="outline-primary"
+                >
                   Remove
                 </b-button>
               </div>
@@ -129,29 +210,41 @@
           </b-row>
           <b-row>
             <b-col class="px-1" md="12">
-              <div class="actions-proposal my-1 p-2 d-flex justify-content-center bg-light">
-                <b-button size="sm" variant="primary" @click="addProposalField()">
-                  <span class="text-nowrap">
-                    Add Proposal Section</span>
+              <div
+                class="actions-proposal my-1 p-2 d-flex justify-content-center bg-light"
+              >
+                <b-button
+                  size="sm"
+                  variant="primary"
+                  @click="addProposalField()"
+                >
+                  <span class="text-nowrap"> Add Proposal Section</span>
                 </b-button>
-                <b-button @click="
-                  () => {
-                    openModal('list-templates-modal');
-                  }
-                " v-show="proposalFields.length === 0" size="sm" class="ml-1" variant="primary">
-                  <span class="text-nowrap" >
-                    Choose From Templates</span>
+                <b-button
+                  @click="
+                    () => {
+                      openModal('list-templates-modal')
+                    }
+                  "
+                  v-show="proposalFields.length === 0"
+                  size="sm"
+                  class="ml-1"
+                  variant="primary"
+                >
+                  <span class="text-nowrap"> Choose From Templates</span>
                 </b-button>
               </div>
             </b-col>
           </b-row>
-          <b-row style="
-                border-bottom: inset;
-                border-color: #f75949;
-                margin-left: 0rem;
-                margin-bottom: 1rem;
-                margin-right: 0.5rem;
-              ">
+          <b-row
+            style="
+              border-bottom: inset;
+              border-color: #f75949;
+              margin-left: 0rem;
+              margin-bottom: 1rem;
+              margin-right: 0.5rem;
+            "
+          >
             <span style="margin-bottom: 0.5rem;" class="text-uppercase">
               fees details
             </span>
@@ -160,14 +253,28 @@
           <b-row v-for="(amount, index) in amountField" :key="index">
             <b-col md="8">
               <b-form-group label="Description">
-                <b-form-input v-model="amount.description" placeholder="Enter Description" class="my-custom-select"/>
+                <b-form-input
+                  v-model="amount.description"
+                  placeholder="Enter Description"
+                  class="my-custom-select"
+                />
               </b-form-group>
             </b-col>
             <b-col class="d-flex flex-column" md="4">
-              <ValidationProvider #default="validationContext" name="amount" vid="amount" rules="required">
+              <ValidationProvider
+                #default="validationContext"
+                name="amount"
+                vid="amount"
+                rules="required"
+              >
                 <b-form-group label="Amount *">
-                  <b-form-input type="number" id="amount"  
-                    v-model="amount.amount" placeholder="Enter Amount" class="my-custom-select" />
+                  <b-form-input
+                    type="number"
+                    id="amount"
+                    v-model="amount.amount"
+                    placeholder="Enter Amount"
+                    class="my-custom-select"
+                  />
 
                   <!-- </b-form-input> -->
                   <b-form-invalid-feedback class="d-block">
@@ -176,12 +283,21 @@
                 </b-form-group>
               </ValidationProvider>
               <div class="text-right">
-                <b-button size="sm" v-show="amountField.length > 1" @click="removeAmount(index)"
-                  variant="outline-primary">
+                <b-button
+                  size="sm"
+                  v-show="amountField.length > 1"
+                  @click="removeAmount(index)"
+                  variant="outline-primary"
+                >
                   Remove
                 </b-button>
-                <b-button size="sm" v-show="index === amountField.length - 1" class="ml-1" @click="addAmount()"
-                  variant="primary">
+                <b-button
+                  size="sm"
+                  v-show="index === amountField.length - 1"
+                  class="ml-1"
+                  @click="addAmount()"
+                  variant="primary"
+                >
                   Add more
                 </b-button>
               </div>
@@ -200,7 +316,11 @@
           <b-row>
             <b-col md="12">
               <b-form-group label="Footer Title">
-                <b-form-input v-model="pfootertitle" placeholder="Enter Footer Title" class="my-custom-select">
+                <b-form-input
+                  v-model="pfootertitle"
+                  placeholder="Enter Footer Title"
+                  class="my-custom-select"
+                >
                 </b-form-input>
               </b-form-group>
             </b-col>
@@ -208,7 +328,10 @@
           <b-row>
             <b-col md="12">
               <b-form-group label="Footer Description">
-                <quill-editor v-model="pfooterdesc" :options="editorOption"></quill-editor>
+                <quill-editor
+                  v-model="pfooterdesc"
+                  :options="editorOption"
+                ></quill-editor>
               </b-form-group>
             </b-col>
           </b-row>
@@ -217,7 +340,12 @@
               <!-- <ValidationProvider #default="validationContext" name="pnotes" vid="pnotes" rules="required"> -->
 
               <b-form-group label="Internal Notes (Not visible for clients)">
-                <b-form-input id="pnotes" v-model="pnotes" placeholder="Enter Notes" class="my-custom-select">
+                <b-form-input
+                  id="pnotes"
+                  v-model="pnotes"
+                  placeholder="Enter Notes"
+                  class="my-custom-select"
+                >
                 </b-form-input>
                 <!-- <b-form-invalid-feedback class="d-block">
                     {{ validationContext.errors[0] }}
@@ -229,7 +357,12 @@
           <b-row>
             <b-col class="py-1 d-flex justify-content-end" md="12">
               <div>
-                <b-button size="sm" class="mr-1" variant="primary" @click="$refs['proposal-new-modal'].hide()">
+                <b-button
+                  size="sm"
+                  class="mr-1"
+                  variant="primary"
+                  @click="$refs['proposal-new-modal'].hide()"
+                >
                   <span class="text-nowrap"> Cancel</span>
                 </b-button>
                 <b-button size="sm" variant="primary" type="submit">
@@ -240,25 +373,48 @@
           </b-row>
         </b-form>
       </ValidationObserver>
+      <div
+        v-if="$store.state.proposals.isLoading"
+        class="b-overlay position-absolute"
+        style="inset: 0px; z-index: 10; /* display: none; */"
+      >
+        <div
+          class="position-absolute bg-white rounded-sm"
+          style="inset: 0px; opacity: 0.75; backdrop-filter: blur(0px);"
+        ></div>
+        <div
+          class="position-absolute d-flex align-items-center flex-column"
+          style="
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+          "
+        >
+          <span aria-hidden="true" class="spinner-border text-primary">
+            <!----></span
+          >
+          <br /><span>Adding New Proposals..</span>
+        </div>
+      </div>
     </b-modal>
-    </div>
+  </div>
 </template>
 <script>
-import { VueDatePicker } from '@mathieustan/vue-datepicker';
+import { VueDatePicker } from "@mathieustan/vue-datepicker"
 
-import imgLogo from "../../../assets/images/logo/centrik-logo.png";
-import wordIcon from "../../../assets/images/logo/word-icon.png";
-import excelIcon from "../../../assets/images/logo/excel-icon.png";
-import slideIcon from "../../../assets/images/logo/slide-icon.png";
-import browseIcon from "../../../assets/images/logo/browse-icon.png";
-import VueHtml2pdf from "vue-html2pdf";
-import EmailSendModal from "../EmailSendModal.vue";
-import { quillEditor } from "vue-quill-editor";
-import CardAdvanceChat from "./CardAdvanceChat.vue";
-import SearchMessages from "./SearchMessages.vue";
-import Todo from "./todo.vue";
-import EditClient from "../clients/EditSidebar.vue";
-import CreateClient from "../clients/CreateClient.vue";
+import imgLogo from "../../../assets/images/logo/centrik-logo.png"
+import wordIcon from "../../../assets/images/logo/word-icon.png"
+import excelIcon from "../../../assets/images/logo/excel-icon.png"
+import slideIcon from "../../../assets/images/logo/slide-icon.png"
+import browseIcon from "../../../assets/images/logo/browse-icon.png"
+import VueHtml2pdf from "vue-html2pdf"
+import EmailSendModal from "../EmailSendModal.vue"
+import { quillEditor } from "vue-quill-editor"
+import CardAdvanceChat from "./CardAdvanceChat.vue"
+import SearchMessages from "./SearchMessages.vue"
+import Todo from "./todo.vue"
+import EditClient from "../clients/EditSidebar.vue"
+import CreateClient from "../clients/CreateClient.vue"
 import {
   BFormInvalidFeedback,
   BTooltip,
@@ -296,43 +452,43 @@ import {
   BFormGroup,
   BIconStarFill,
   VBPopover,
-} from "bootstrap-vue";
-import { Mentionable } from "vue-mention";
-import { required, email } from "@validations";
+} from "bootstrap-vue"
+import { Mentionable } from "vue-mention"
+import { required, email } from "@validations"
 
-import { ref } from "@vue/composition-api";
-import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
-import Ripple from "vue-ripple-directive";
+import { ref } from "@vue/composition-api"
+import ToastificationContent from "@core/components/toastification/ToastificationContent.vue"
+import Ripple from "vue-ripple-directive"
 // import parse from 'html-dom-parser'
 // import { required } from 'vee-validate/dist/rules'
-import "bootstrap-vue/dist/bootstrap-vue-icons.min.css";
-import CreateSidebar from "./CreateSidebar.vue";
-import EditSidebar from "./EditSidebar.vue";
-import flatPickr from "vue-flatpickr-component";
-import draggable from "vuedraggable";
+import "bootstrap-vue/dist/bootstrap-vue-icons.min.css"
+import CreateSidebar from "./CreateSidebar.vue"
+import EditSidebar from "./EditSidebar.vue"
+import flatPickr from "vue-flatpickr-component"
+import draggable from "vuedraggable"
 
-import DropdownDatepicker from "vue-dropdown-datepicker";
-import vSelect from "vue-select";
-import axios from "axios";
-import store from "@/store";
+import DropdownDatepicker from "vue-dropdown-datepicker"
+import vSelect from "vue-select"
+import axios from "axios"
+import store from "@/store"
 // import { useRouter } from '@core/utils/utils'
-import Fuse from "fuse.js";
-import Snackbar from "vuejs-snackbar";
-import { useToast } from "vue-toastification";
-import "vue-toastification/dist/index.css";
+import Fuse from "fuse.js"
+import Snackbar from "vuejs-snackbar"
+import { useToast } from "vue-toastification"
+import "vue-toastification/dist/index.css"
 
-import FeatherIcon from "@/@core/components/feather-icon/FeatherIcon.vue";
+import FeatherIcon from "@/@core/components/feather-icon/FeatherIcon.vue"
 // import InnerPage from "./InnerPage.vue";
-import { useRouter } from "@/@core/utils/utils";
-import router from "@/router";
-import { includes } from "postcss-rtl/lib/affected-props";
-import CreateLead from "./CreateLead.vue";
-import EditLeads from "./EditLeads.vue";
-import VuePerfectScrollbar from "vue-perfect-scrollbar";
-import { ValidationProvider, ValidationObserver } from "vee-validate";
-import formValidation from "@/@core/comp-functions/forms/form-validation";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { library } from "@fortawesome/fontawesome-svg-core";
+import { useRouter } from "@/@core/utils/utils"
+import router from "@/router"
+import { includes } from "postcss-rtl/lib/affected-props"
+import CreateLead from "./CreateLead.vue"
+import EditLeads from "./EditLeads.vue"
+import VuePerfectScrollbar from "vue-perfect-scrollbar"
+import { ValidationProvider, ValidationObserver } from "vee-validate"
+import formValidation from "@/@core/comp-functions/forms/form-validation"
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
+import { library } from "@fortawesome/fontawesome-svg-core"
 import {
   faBars,
   faEnvelopeOpen,
@@ -342,13 +498,13 @@ import {
   faCommentDots,
   faCommentDollar,
   faIndianRupee,
-} from "@fortawesome/free-solid-svg-icons";
+} from "@fortawesome/free-solid-svg-icons"
 import {
   faTwitter,
   faFacebook,
   faStackOverflow,
   faGithub,
-} from "@fortawesome/free-brands-svg-icons";
+} from "@fortawesome/free-brands-svg-icons"
 // library.add()
 library.add(
   faBars,
@@ -363,12 +519,12 @@ library.add(
   faStackOverflow,
   faGithub,
   faIndianRupee
-);
-import html2pdf from "html2pdf.js";
-import jspdf from "jspdf";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
-import { isUserLoggedIn } from '@/auth/utils';
+)
+import html2pdf from "html2pdf.js"
+import jspdf from "jspdf"
+import html2canvas from "html2canvas"
+import jsPDF from "jspdf"
+import { isUserLoggedIn } from "@/auth/utils"
 // import logo from '../../../../public/centrik-logo.png'
 
 // import
@@ -382,7 +538,8 @@ export default {
     BContainer,
     BDropdownForm,
     BFormGroup,
-    BTabs,BFormFile,
+    BTabs,
+    BFormFile,
     BTab,
     BForm,
     VueHtml2pdf,
@@ -444,37 +601,35 @@ export default {
   name: "Tasks",
 
   data() {
-    
+    const date = new Date()
 
-    const date = new Date();
-
-    let day = date.getDate();
-    let month = date.getMonth() + 1;
-    let year = date.getFullYear();
+    let day = date.getDate()
+    let month = date.getMonth() + 1
+    let year = date.getFullYear()
 
     return {
       file_name2: [],
       currentDate: `${year}-${month}-${day}`,
-      filetask:null,
-      receivedItem:[],
-      totalLength:'',
-      importantLength:'',
-      overDueLength:'',
-      dueTodayLength:'',
-      dueTomorrowLength:'',
-      dueThisWeekLength:'',
-      activeTab:0,
-    priority:'',
-    id:'',
-    
-    client:'',
-    subject:'',
-    comments:'',
-    postDate:'',
-    daysLeft:'',
-    employees:'',
-    priority:'',
-    leadStatus:'',
+      filetask: null,
+      receivedItem: [],
+      totalLength: "",
+      importantLength: "",
+      overDueLength: "",
+      dueTodayLength: "",
+      dueTomorrowLength: "",
+      dueThisWeekLength: "",
+      activeTab: 0,
+      priority: "",
+      id: "",
+
+      client: "",
+      subject: "",
+      comments: "",
+      postDate: "",
+      daysLeft: "",
+      employees: "",
+      priority: "",
+      leadStatus: "",
       previleges: {
         edit: false,
         onRowEdit: false,
@@ -486,7 +641,7 @@ export default {
         delete: false,
         download: false,
       },
-      
+
       taskNum: 0,
       wordIcon: wordIcon,
       slideIcon: slideIcon,
@@ -624,44 +779,44 @@ export default {
         {
           key: "subject",
           label: "subject",
-          thStyle: { paddingLeft:'0rem',width: "28%" },
-          tdClass:'pl-0',
+          thStyle: { paddingLeft: "0rem", width: "28%" },
+          tdClass: "pl-0",
           html: true,
         },
         {
           key: "commentCount",
           label: "commentCount",
           tdClass: "width-0",
-          thStyle: { paddingLeft:'0rem',width: "5%" },
-          tdClass:'pl-0',
+          thStyle: { paddingLeft: "0rem", width: "5%" },
+          tdClass: "pl-0",
         },
         {
           key: "postDate",
           label: "postDate",
           tdClass: "width-3",
-          thStyle: { paddingLeft:'0rem',width: "10%" },
-          tdClass:'pl-0',
+          thStyle: { paddingLeft: "0rem", width: "10%" },
+          tdClass: "pl-0",
         },
         {
           key: "daysLeft",
           tdClass: "width-0",
           thClass: "text-center",
-          thStyle: { paddingLeft:'0rem',width: "10%" },
-          tdClass:'pl-0',
+          thStyle: { paddingLeft: "0rem", width: "10%" },
+          tdClass: "pl-0",
         },
         {
           key: "employees",
           label: "employees",
           tdClass: "text-left width-0",
           thClass: "text-left ",
-          thStyle: { paddingLeft:'0rem',width: "10%" },
-          tdClass:'pl-0',
+          thStyle: { paddingLeft: "0rem", width: "10%" },
+          tdClass: "pl-0",
         },
         {
           key: "status",
           tdClass: "text-capitalize width-0",
-          thStyle: { paddingLeft:'0rem',width: "10%" },
-          tdClass:'pl-0',
+          thStyle: { paddingLeft: "0rem", width: "10%" },
+          tdClass: "pl-0",
         },
       ],
       proposalTable: [
@@ -762,9 +917,11 @@ export default {
       pperson: "",
       pfeesdesc: "",
       pfootertitle: "Thanking you,",
-      pfooterdesc: `${JSON.parse(localStorage.getItem("userData")).name
-        }<br/>For, ${JSON.parse(localStorage.getItem("userData")).tenant.organization.name
-        }<br/><br/>P:<br/>GSTIN:<br/>(Authorised Representative)`,
+      pfooterdesc: `${
+        JSON.parse(localStorage.getItem("userData")).name
+      }<br/>For, ${
+        JSON.parse(localStorage.getItem("userData")).tenant.organization.name
+      }<br/><br/>P:<br/>GSTIN:<br/>(Authorised Representative)`,
       pNotes: "Thanking you",
       psubject: "",
       pphrase: "As per discussion, please find below the brief proposal",
@@ -808,73 +965,70 @@ export default {
         bcc: [],
         from: null,
         file2: null,
-
       },
       proposalPdf: "PL-0009.pdf",
       file_name: [],
       previewImage: null,
       file: null,
       image: null,
-    };
+    }
   },
-  
-  
+
   computed: {
-  
-    leads(){
-      return this.$store.state.leads.all.filter(e => e.type === 'lead').filter(e => e.type === 'lead');
+    leads() {
+      return this.$store.state.leads.all
+        .filter((e) => e.type === "lead")
+        .filter((e) => e.type === "lead")
     },
     // leadItems(){
     // let data=this.$store.state.leads.all.filter(e => e.type === 'lead').filter(e => e.type === 'lead');
 
     // } ,
-    
-    Allusers(){
-       return this.$store.state.users.all;
+
+    Allusers() {
+      return this.$store.state.users.all
     },
-    allLeads(){
-
-
-      let arr2=[];
-      let arr=this.$store.state.leads.all.filter(e => e.type === 'lead').filter(e => e.type === 'lead');
-      arr.forEach(element=>{
+    allLeads() {
+      let arr2 = []
+      let arr = this.$store.state.leads.all
+        .filter((e) => e.type === "lead")
+        .filter((e) => e.type === "lead")
+      arr.forEach((element) => {
         this.receivedData.push({
-          id:element.branch_id,
-          client:element.company_id,
-          subject:element.subject,
+          id: element.branch_id,
+          client: element.company_id,
+          subject: element.subject,
           //daysLeft:due_date,
-          employees:element.users,
-          priority:element.priority,
-
-
+          employees: element.users,
+          priority: element.priority,
         })
       })
     },
     setPrivileges() {
-      let priveleges = [];
-      let data = this.previleges;
+      let priveleges = []
+      let data = this.previleges
       if (this.$store.state.users.all.length > 0) {
-        let roles = this.$store.state.users.all;
-           let currUser = [JSON.parse(localStorage.getItem('userData'))]//.user_role_id
+        let roles = this.$store.state.users.all
+        let currUser = [JSON.parse(localStorage.getItem("userData"))] //.user_role_id
 
-        let designations = this.$store.state.designation.all;
+        let designations = this.$store.state.designation.all
 
         let d2 = designations.filter((x) => {
           for (let i = 0; i < x.users.length; i++) {
             if (x.users[i].user_role_id === currUser[0].user_role_id) {
-              return true;
+              return true
             }
           }
-          return false;
-        });
+          return false
+        })
 
         d2.forEach((x) => {
           x.privileges.forEach((y) => {
-            priveleges.push(y);
-          });
-        });
+            priveleges.push(y)
+          })
+        })
 
-        let arr = [];
+        let arr = []
 
         this.$store.state.status.all_master.forEach((x) => {
           if (x.name === "Leads") {
@@ -884,77 +1038,77 @@ export default {
                   arr.push({
                     name: y.name,
                     status: z.status,
-                  });
+                  })
                 }
-              });
-            });
+              })
+            })
           }
-        });
+        })
 
         // console.log(arr, "ppppppppppp");
 
         arr.forEach((x) => {
           // console.log(x.name === "Leads Editing", "nnnnnnnnnn");
           if (x.name === "Leads Editing") {
-            if (x.status === 'active') {
-              data.edit = true;
+            if (x.status === "active") {
+              data.edit = true
             }
           } else if (x.name === "View All Leads") {
-            if (x.status === 'active') {
-              data.viewAll = true;
+            if (x.status === "active") {
+              data.viewAll = true
             }
           } else if (x.name === "Leads On Row Editing") {
-            if (x.status === 'active') {
-              data.onRowEdit = true;
+            if (x.status === "active") {
+              data.onRowEdit = true
             }
           } else if (x.name === "Leads Conversion") {
-            if (x.status === 'active') {
-              data.conversion = true;
+            if (x.status === "active") {
+              data.conversion = true
             }
           } else if (x.name === "Client Contact Details") {
-            if (x.status === 'active') {
-              data.clientDetails = true;
+            if (x.status === "active") {
+              data.clientDetails = true
             }
           } else if (x.name === "Timesheet") {
-            if (x.status === 'active') {
-              data.timeSheet = true;
+            if (x.status === "active") {
+              data.timeSheet = true
             }
           } else if (x.name === "Checklist") {
-            if (x.status === 'active') {
-              data.checklist = true;
+            if (x.status === "active") {
+              data.checklist = true
             }
           } else if (x.name === "Leads Delete") {
-            if (x.status === 'active') {
-              data.delete = true;
+            if (x.status === "active") {
+              data.delete = true
             }
           } else if (x.name === "Leads Download") {
-            if (x.status === 'active') {
-              data.download = true;
+            if (x.status === "active") {
+              data.download = true
             }
           }
-        });
+        })
       }
       // console.log(data, "dddddddddd");
-      return data;
+      return data
     },
     attachmentLoading() {
-      let data = this.$store.state.attachments.isLoading;
-      return data;
+      let data = this.$store.state.attachments.isLoading
+      return data
     },
     showFilesTask() {
-      let data = this.$store.state.tasks.allAttachments;
+      let data = this.$store.state.tasks.allAttachments
       let filter = []
       let num = 0
-      data.forEach(element => {
-        if(element.type === 'task'){
-          let split = element.attachment.split('/')
-          element.name = split[split.length -1]
+      data.forEach((element) => {
+        if (element.type === "task") {
+          let split = element.attachment.split("/")
+          element.name = split[split.length - 1]
           filter.push(element)
           num++
         }
-      });
+      })
       this.taskNum = num
-      return filter;
+      return filter
       // if (this.$store.state.attachments.all.length > 0) {
       //   let data = this.$store.state.attachments.all;
       //   let filter = [];
@@ -998,19 +1152,19 @@ export default {
       // }
     },
     showFilesClient() {
-      let data = this.$store.state.tasks.allAttachments;
+      let data = this.$store.state.tasks.allAttachments
       let filter = []
       let num = 0
-      data.forEach(element => {
-        if(element.type === 'company'){
-          let split = element.attachment.split('/')
-          element.name = split[split.length -1]
+      data.forEach((element) => {
+        if (element.type === "company") {
+          let split = element.attachment.split("/")
+          element.name = split[split.length - 1]
           filter.push(element)
           num++
         }
-      });
+      })
       this.clientNum = num
-      return filter;
+      return filter
       // if (this.$store.state.attachments.all.length > 0) {
       //   let data = this.$store.state.attachments.all;
       //   let filter = [];
@@ -1052,8 +1206,8 @@ export default {
       // }
     },
     fileLinks() {
-      let data = this.$store.state.attachments.links;
-      return data;
+      let data = this.$store.state.attachments.links
+      return data
     },
     mail_comment() {
       // return this.threadedMail();
@@ -1063,15 +1217,15 @@ export default {
         { id: 1, name: "Cash" },
         { id: 2, name: "Cheque" },
         { id: 3, name: "Bank Transfer" },
-      ];
+      ]
     },
     allStates() {
-      return this.$store.state.branches.states;
+      return this.$store.state.branches.states
     },
     allProposals() {
-      let payment = this.$store.state.recordPayment.all;
-      let d1 = this.$store.state.invoice.all;
-      this.payment.payment = [];
+      let payment = this.$store.state.recordPayment.all
+      let d1 = this.$store.state.invoice.all
+      this.payment.payment = []
       for (let index = 0; index < d1.length; index++) {
         // const element = array[index];
         this.payment.payment.push({
@@ -1079,34 +1233,34 @@ export default {
           tds: 0,
           amount: 0,
           invoice_id: d1[index].id,
-        });
+        })
         // this.payment.tds.push({id:index+1,amount:0});
       }
-      let d2 = this.$store.state.proposals.allProposals;
-      let d3 = [];
+      let d2 = this.$store.state.proposals.allProposals
+      let d3 = []
       d1.forEach((element) => {
-        element.title = "invoice";
-        d3.push(element);
-      });
+        element.title = "invoice"
+        d3.push(element)
+      })
       d2.forEach((element) => {
-        element.title = "proposal";
-        d3.push(element);
-      });
+        element.title = "proposal"
+        d3.push(element)
+      })
       d1.forEach((e) => {
         payment.forEach((element) => {
           element.invoice.forEach((i) => {
             if (e.id === i.id && element.id === this.payment.edit_id) {
-              this.paid_payment.push(e);
+              this.paid_payment.push(e)
             }
-          });
-        });
-      });
+          })
+        })
+      })
       payment.forEach((element) => {
-        element.title = "payment";
-        d3.push(element);
-      });
+        element.title = "payment"
+        d3.push(element)
+      })
       // let data = this.$store.state.proposals.allProposals;
-      let data = d3;
+      let data = d3
       // let total = 0
       // var amount = [];
       // this.proposals = []
@@ -1141,40 +1295,40 @@ export default {
 
       // console.log(amount);
 
-      return data;
+      return data
     },
     show_companys() {
-      return this.$store.state.clients.all;
+      return this.$store.state.clients.all
     },
     show_contactPerson() {
-      return this.$store.state.contactPeople.allForLeads;
+      return this.$store.state.contactPeople.allForLeads
     },
     todo_status() {
-      return this.$store.state.appTodo.isLoadingUpdate;
+      return this.$store.state.appTodo.isLoadingUpdate
     },
     totalAmount() {
-      this.pamount = +this.amountField[0].amount;
+      this.pamount = +this.amountField[0].amount
       if (this.amountField.length > 0) {
         for (let i = 1; i < this.amountField.length; i++) {
-          this.pamount = this.pamount + +this.amountField[i].amount;
+          this.pamount = this.pamount + +this.amountField[i].amount
         }
       }
-      return this.pamount;
+      return this.pamount
     },
     filterLeads(val) {
       return this.items.filter((item) => {
-        let keep = true;
+        let keep = true
 
         // This is a basic equality filter. What I did in the actual code was to have an object with filter functions for each key. If a key was missing, it defaulted to straight equality.
         this.fieldKeys.forEach((key) => {
           keep =
             keep &&
             (this.selectVal[key] === undefined ||
-              item[key] === this.selectVal[key]);
-        });
+              item[key] === this.selectVal[key])
+        })
 
-        return keep;
-      });
+        return keep
+      })
 
       // return this.$store.state.leads.all.filter(e => e.type === 'lead').filter(e => e.type === 'lead').filter(item => {
       //   if(this.FilterPriority != null){
@@ -1184,66 +1338,85 @@ export default {
       // });
     },
     fieldKeys() {
-      return Object.keys(this.items[0]);
+      return Object.keys(this.items[0])
     },
 
     isLoading() {
-      this.todos = this.$store.state.appTodo.all;
+      this.todos = this.$store.state.appTodo.all
       if (this.$router.currentRoute.name == "tasks") {
-        return this.$store.state.tasks.isLoadingLeads;
+        return this.$store.state.tasks.isLoadingLeads
       } else {
-        return this.$store.state.leads.isLoadingLeads;
+        return this.$store.state.leads.isLoadingLeads
       }
     },
     successMessage() {
-      return this.$store.state.leads.successMessage;
+      return this.$store.state.leads.successMessage
     },
     errorMessage() {
-      return this.$store.state.leads.errorMessage;
+      return this.$store.state.leads.errorMessage
     },
     errors() {
       return this.$store.state.leads.errors.branch_id
         ? this.$store.state.leads.errors.branch_id[0]
-        : "";
+        : ""
     },
     totalCount() {
-      if(this.$router.currentRoute.name == 'tasks'){
-        var items = this.$store.state.tasks.all.filter(e => e.type === 'task');
+      if (this.$router.currentRoute.name == "tasks") {
+        var items = this.$store.state.tasks.all.filter((e) => e.type === "task")
         var count = 0
-        if(this.activeTab === 1){
-          count = items.filter(e => e.priority === 5 || e.priority===4).length
+        if (this.activeTab === 1) {
+          count = items.filter((e) => e.priority === 5 || e.priority === 4)
+            .length
           //this.importantLength=items.length
-        }
-        else if(this.activeTab===0){
-          count=items.filter(e => e.priority === 1 || e.priority===2||e.priority === 3 || e.priority===4|| e.priority===5).length
+        } else if (this.activeTab === 0) {
+          count = items.filter(
+            (e) =>
+              e.priority === 1 ||
+              e.priority === 2 ||
+              e.priority === 3 ||
+              e.priority === 4 ||
+              e.priority === 5
+          ).length
           //this.totalLength=items.length
+        } else if (this.activeTab === 2) {
+          count = items.filter(
+            (e) => this.DaysLeft(e.created_at, e.due_date) < 0
+          ).length
+          // this.overDueLength=items.length
+        } else if (this.activeTab === 5) {
+          // count=items.filter(e => this.dueThisWeek(e.due_date,e.created_at)<=6 && this.dueThisWeek(e.due_date,e.created_at)>0).length
+          count = items.filter(
+            (e) =>
+              this.DaysLeft(e.due_date, e.created_at) <= 6 &&
+              this.DaysLeft(e.due_date, e.created_at) > 0
+          ).length
         }
-        
-        else if(this.activeTab===2){
-          count=items.filter(e => this.DaysLeft(e.created_at, e.due_date) < 0).length
-         // this.overDueLength=items.length
-        }else if(this.activeTab===5){
-         // count=items.filter(e => this.dueThisWeek(e.due_date,e.created_at)<=6 && this.dueThisWeek(e.due_date,e.created_at)>0).length
-         count=items.filter(e => this.DaysLeft(e.due_date,e.created_at)<=6 && this.DaysLeft(e.due_date,e.created_at)>0).length
-        }
-      return count;
-      }else{
-
-        var items= this.$store.state.leads.all.filter(e => e.type === 'lead').filter(e => e.type === 'lead')
-        var count =0
-        if(this.activeTab === 1){
-          count = items.filter(e => e.priority === 5 || e.priority===4).length
+        return count
+      } else {
+        var items = this.$store.state.leads.all
+          .filter((e) => e.type === "lead")
+          .filter((e) => e.type === "lead")
+        var count = 0
+        if (this.activeTab === 1) {
+          count = items.filter((e) => e.priority === 5 || e.priority === 4)
+            .length
           //this.importantLength=items.length
-        }
-        else if(this.activeTab===0){
-          count=items.filter(e =>e.priority === 1 || e.priority===2||e.priority === 3 || e.priority===4|| e.priority===5).length
+        } else if (this.activeTab === 0) {
+          count = items.filter(
+            (e) =>
+              e.priority === 1 ||
+              e.priority === 2 ||
+              e.priority === 3 ||
+              e.priority === 4 ||
+              e.priority === 5
+          ).length
           //this.totalLength=items.length
-        }
-        
-        else if(this.activeTab===2){
-          count=items.filter(e =>this.DaysLeft(e.created_at, e.due_date) < 0).length
-         // this.overDueLength=items.length
-        }else if(this.activeTab===5){
+        } else if (this.activeTab === 2) {
+          count = items.filter(
+            (e) => this.DaysLeft(e.created_at, e.due_date) < 0
+          ).length
+          // this.overDueLength=items.length
+        } else if (this.activeTab === 5) {
           // let today= new Date()
           // let firstDay=new Date(today.setDate(today.getDate() - today.getDay()));
           // let lastDay=new Date(today.setDate(today.getDate() - today.getDay() + 6));
@@ -1252,117 +1425,144 @@ export default {
           // let differenceInMilliseconds=lastDay.getTime()-firstDay.getTime()
           // let differenceInDays = differenceInMilliseconds / (24 * 60 * 60 * 1000);
           // console.log(differenceInDays)
-          
-        //  let day = date.getDate();
-        //  console.log('this is dayyyyyyyyyy',day)
-          count=items.filter(e =>this.DaysLeft(e.created_at, e.due_date)<=6 && this.DaysLeft(e.created_at, e.due_date)>=0).length
-          
-          
-          
+
+          //  let day = date.getDate();
+          //  console.log('this is dayyyyyyyyyy',day)
+          count = items.filter(
+            (e) =>
+              this.DaysLeft(e.created_at, e.due_date) <= 6 &&
+              this.DaysLeft(e.created_at, e.due_date) >= 0
+          ).length
         }
-      return count
+        return count
       }
     },
     items() {
-     
       if (this.setPrivileges.viewAll === true) {
-        var items = [];
+        var items = []
         if (this.$router.currentRoute.name == "tasks") {
           // check if the user is owner or not
-          if(this.$store.state.users.all.filter(e => e.email === JSON.parse(localStorage.getItem('userData')).email)[0].user_role_id === 1){
-            items = this.$store.state.tasks.all.filter(e => e.type === 'task').filter(e => e.type === 'task');
+          if (
+            this.$store.state.users.all.filter(
+              (e) =>
+                e.email === JSON.parse(localStorage.getItem("userData")).email
+            )[0].user_role_id === 1
+          ) {
+            items = this.$store.state.tasks.all
+              .filter((e) => e.type === "task")
+              .filter((e) => e.type === "task")
             // items = this
-          }else{
-
-            this.$store.state.tasks.all.filter(e => e.type === 'task').filter(e => e.type === 'task').forEach(a => {
-              if(a.users.filter(e => e.email === JSON.parse(localStorage.getItem('userData')).email).length > 0){
-                items.push(a)
-              }
-              
-            });
+          } else {
+            this.$store.state.tasks.all
+              .filter((e) => e.type === "task")
+              .filter((e) => e.type === "task")
+              .forEach((a) => {
+                if (
+                  a.users.filter(
+                    (e) =>
+                      e.email ===
+                      JSON.parse(localStorage.getItem("userData")).email
+                  ).length > 0
+                ) {
+                  items.push(a)
+                }
+              })
           }
-          
         } else {
-
           // items = this.$store.state.leads.all.filter(e => e.type === 'lead').filter(e => e.type === 'lead');
-          if(this.$store.state.users.all.filter(e => e.email === JSON.parse(localStorage.getItem('userData')).email)[0].user_role_id === 1){
-            items = this.$store.state.leads.all.filter(e => e.type === 'lead').filter(e => e.type === 'lead').filter(e => e.type === 'lead');
+          if (
+            this.$store.state.users.all.filter(
+              (e) =>
+                e.email === JSON.parse(localStorage.getItem("userData")).email
+            )[0].user_role_id === 1
+          ) {
+            items = this.$store.state.leads.all
+              .filter((e) => e.type === "lead")
+              .filter((e) => e.type === "lead")
+              .filter((e) => e.type === "lead")
             // items = this
-          }else{
-          this.$store.state.leads.all.filter(e => e.type === 'lead').filter(e => e.type === 'lead').filter(e => e.type === 'lead').forEach(a => {
-            if(a.users.filter(e => e.email === JSON.parse(localStorage.getItem('userData')).email).length > 0){
-              items.push(a)
-            }
-            
-          });
-        }
-          if(this.activeTab === 0){
+          } else {
+            this.$store.state.leads.all
+              .filter((e) => e.type === "lead")
+              .filter((e) => e.type === "lead")
+              .filter((e) => e.type === "lead")
+              .forEach((a) => {
+                if (
+                  a.users.filter(
+                    (e) =>
+                      e.email ===
+                      JSON.parse(localStorage.getItem("userData")).email
+                  ).length > 0
+                ) {
+                  items.push(a)
+                }
+              })
+          }
+          if (this.activeTab === 0) {
             // items=items.filter(e =>e.priority === 1 || e.priority===2||e.priority === 3 || e.priority===4|| e.priority===5)
+          } else if (this.activeTab === 1) {
+            items = items.filter((e) => e.priority === 5 || e.priority === 4)
+          } else if (this.activeTab === 2) {
+            items = items.filter(
+              (e) => this.DaysLeft(e.created_at, e.due_date) < 0
+            )
+          } else if (this.activeTab === 3) {
+            items = items.filter(
+              (e) =>
+                this.DaysLeft(e.created_at, e.due_date) >= 0 &&
+                this.DaysLeft(e.created_at, e.due_date) < 1
+            )
+          } else if (this.activeTab === 4) {
+            items = items.filter(
+              (e) =>
+                this.DaysLeft(e.created_at, e.due_date) > 0 &&
+                this.DaysLeft(e.created_at, e.due_date) <= 1
+            )
+          } else if (this.activeTab === 5) {
+            // let today= new Date()
+            // let firstDay=new Date(today.setDate(today.getDate() - today.getDay()));
+            // let lastDay=new Date(today.setDate(today.getDate() - today.getDay() + 6));
+            // console.log(firstDay)
+            // console.log(lastDay)
+            // let differenceInMilliseconds=lastDay.getTime()-firstDay.getTime()
+            // let differenceInDays = differenceInMilliseconds / (24 * 60 * 60 * 1000);
+            // console.log(differenceInDays)
 
-          
+            //  let day = date.getDate();
+            //  console.log('this is dayyyyyyyyyy',day)
+            items = items.filter(
+              (e) =>
+                this.DaysLeft(e.created_at, e.due_date) <= 6 &&
+                this.DaysLeft(e.created_at, e.due_date) > 0
+            )
+          }
         }
-        else if(this.activeTab===1){
-          
-          items = items.filter(e => e.priority === 5 || e.priority===4)
-        }
-        
-        else if(this.activeTab===2){
-          items=items.filter(e =>this.DaysLeft(e.created_at, e.due_date) < 0)
-        
-        }else if(this.activeTab===3){
-          items=items.filter(e =>this.DaysLeft(e.created_at, e.due_date)>=0 && this.DaysLeft(e.created_at, e.due_date)<1 )
 
-        }else if(this.activeTab===4){
-          items=items.filter(e =>this.DaysLeft(e.created_at, e.due_date)>0 && this.DaysLeft(e.created_at, e.due_date)<=1)
+        //{
 
-        }
-        
-        else if(this.activeTab===5){
-          // let today= new Date()
-          // let firstDay=new Date(today.setDate(today.getDate() - today.getDay()));
-          // let lastDay=new Date(today.setDate(today.getDate() - today.getDay() + 6));
-          // console.log(firstDay)
-          // console.log(lastDay)
-          // let differenceInMilliseconds=lastDay.getTime()-firstDay.getTime()
-          // let differenceInDays = differenceInMilliseconds / (24 * 60 * 60 * 1000);
-          // console.log(differenceInDays)
-          
-        //  let day = date.getDate();
-        //  console.log('this is dayyyyyyyyyy',day)
-          items=items.filter(e =>this.DaysLeft(e.created_at, e.due_date)<=6 && this.DaysLeft(e.created_at, e.due_date)>0)
-          
-          
-        }
-      
-        }
-      
-            //{
+        //    const date1 = new Date(e.created_at);
+        //    const date2 = new Date(e.due_date);
+        //    const diffInMilliseconds = date2.getTime() - date1.getTime();
+        //    const diffInDays = diffInMilliseconds / (1000 * 60 * 60 * 24);
+        //    e.diffInDays<0
+        //   }
 
+        //)
 
-          //    const date1 = new Date(e.created_at);
-          //    const date2 = new Date(e.due_date);
-          //    const diffInMilliseconds = date2.getTime() - date1.getTime();
-          //    const diffInDays = diffInMilliseconds / (1000 * 60 * 60 * 24);
-          //    e.diffInDays<0
-          //   }
-            
-           //)
-        
-        
         // var users= items.map(item => item.users.length > 0 ? item : null)
         // var users= items.map(item => item.users.length > 0 ?? item.id)
         // items.splice(users)
-        var element = [];
-        var element2 = "";
+        var element = []
+        var element2 = ""
         for (let index = 0; index < items.length; index++) {
-          element[index] = items[index];
+          element[index] = items[index]
 
           if (
             (items[index].users.length === 0 && this.filterUsers != null) ||
             (items[index].status_master == null && this.filterStatus != null)
           ) {
             // if(this.filterUsers != null){
-            element.splice(element.indexOf(element[index]), 1);
+            element.splice(element.indexOf(element[index]), 1)
 
             // }
             // if(this.filterUsers == null){
@@ -1373,9 +1573,9 @@ export default {
 
         return element.sort(
           (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
-        );
+        )
       } else {
-        var items = [];
+        var items = []
         // if (this.$router.currentRoute.name == "tasks") {
         //   items = this.$store.state.tasks.all.filter(e => e.type === 'task');
         // } else {
@@ -1384,17 +1584,17 @@ export default {
         // var users= items.map(item => item.users.length > 0 ? item : null)
         // var users= items.map(item => item.users.length > 0 ?? item.id)
         // items.splice(users)
-        var element = [];
-        var element2 = "";
+        var element = []
+        var element2 = ""
         for (let index = 0; index < items.length; index++) {
-          element[index] = items[index];
+          element[index] = items[index]
 
           if (
             (items[index].users.length === 0 && this.filterUsers != null) ||
             (items[index].status_master == null && this.filterStatus != null)
           ) {
             // if(this.filterUsers != null){
-            element.splice(element.indexOf(element[index]), 1);
+            element.splice(element.indexOf(element[index]), 1)
 
             // }
             // if(this.filterUsers == null){
@@ -1404,97 +1604,95 @@ export default {
         }
         let arr = element.sort(
           (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
-        );
+        )
 
         // let result = [arr[0]];
-      
-        return items;
+
+        return items
       }
     },
-    updateTab(){
-     
-    },
+    updateTab() {},
     companys() {
       // return this.$store.state.clients.all
-      var data = [];
+      var data = []
       for (
         let index = 0;
         index < this.$store.state.clients.all.length;
         index++
       ) {
-        data[index] = this.$store.state.clients.all[index].name;
+        data[index] = this.$store.state.clients.all[index].name
       }
 
       // return data;
       return data.filter((country) =>
         country.toLocaleLowerCase().includes(this.search.toLocaleLowerCase())
-      );
+      )
     },
     paginated_companys() {
-      return this.companys.slice(this.offset, this.limit + this.offset);
+      return this.companys.slice(this.offset, this.limit + this.offset)
     },
     companys_hasNextPage() {
-      const nextOffset = this.offset + this.limit;
+      const nextOffset = this.offset + this.limit
       return Boolean(
         this.companys.slice(nextOffset, this.limit + nextOffset).length
-      );
+      )
     },
     companys_hasPrevPage() {
-      const prevOffset = this.offset - this.limit;
+      const prevOffset = this.offset - this.limit
       return Boolean(
         this.companys.slice(prevOffset, this.limit + prevOffset).length
-      );
+      )
     },
     category() {
       // return this.$store.state.categories.all
-      var data = [];
+      var data = []
       for (
         let index = 0;
         index < this.$store.state.categories.all.length;
         index++
       ) {
-        data[index] = this.$store.state.categories.all[index].name;
+        data[index] = this.$store.state.categories.all[index].name
       }
 
       // return data;
       return data.filter((country) =>
         country.toLocaleLowerCase().includes(this.search.toLocaleLowerCase())
-      );
+      )
     },
     paginated_category() {
-      return this.category.slice(this.offset, this.limit + this.offset);
+      return this.category.slice(this.offset, this.limit + this.offset)
     },
     category_hasNextPage() {
-      const nextOffset = this.offset + this.limit;
+      const nextOffset = this.offset + this.limit
       return Boolean(
         this.category.slice(nextOffset, this.limit + nextOffset).length
-      );
+      )
     },
     category_hasPrevPage() {
-      const prevOffset = this.offset - this.limit;
+      const prevOffset = this.offset - this.limit
       return Boolean(
         this.category.slice(prevOffset, this.limit + prevOffset).length
-      );
+      )
     },
     branches() {
-      var data = [];
+      var data = []
       for (
         let index = 0;
         index < this.$store.state.branches.all.length;
         index++
       ) {
-        data[index] = this.$store.state.branches.all[index].name;
+        data[index] = this.$store.state.branches.all[index].name
       }
 
       // return data;
       return data.filter((country) =>
         country.toLocaleLowerCase().includes(this.search.toLocaleLowerCase())
-      );
-      var name = [];
-      var id = [];
+      )
+      var name = []
+      var id = []
       for (let index = 0; index < data.length; index++) {
-        name[index] = data[index].name;
-        id[index] = data[index].id;
+        name[index] = data[index].name
+        id[index] = data[index].id
       }
       // return name;
       // return
@@ -1502,28 +1700,33 @@ export default {
       //   name: name.filter((b) => b.includes(this.filterBranch)),
       //   // id : id.filter((b) => b.includes(this.filterBranch)),
       // }
-      return obj;
+      return obj
     },
     paginated_branch() {
-      return this.branches.slice(this.offset, this.limit + this.offset);
+      return this.branches.slice(this.offset, this.limit + this.offset)
     },
     hasNextPage() {
-      const nextOffset = this.offset + this.limit;
+      const nextOffset = this.offset + this.limit
       return Boolean(
         this.branches.slice(nextOffset, this.limit + nextOffset).length
-      );
+      )
     },
     hasPrevPage() {
-      const prevOffset = this.offset - this.limit;
+      const prevOffset = this.offset - this.limit
       return Boolean(
         this.branches.slice(prevOffset, this.limit + prevOffset).length
-      );
+      )
     },
     users_to_assign() {
-      var items = this.$store.state.users.all.filter(e =>e.email !== JSON.parse(localStorage.getItem('userData')).email);;
-      var data = [];
-      var leads = this.$store.state.leads.all.filter(e => e.type === 'lead').filter(e => e.type === 'lead').filter(e => e.type === 'lead');
-      var user_assigned = [];
+      var items = this.$store.state.users.all.filter(
+        (e) => e.email !== JSON.parse(localStorage.getItem("userData")).email
+      )
+      var data = []
+      var leads = this.$store.state.leads.all
+        .filter((e) => e.type === "lead")
+        .filter((e) => e.type === "lead")
+        .filter((e) => e.type === "lead")
+      var user_assigned = []
 
       // return user_assigned;
       for (let index = 0; index < items.length; index++) {
@@ -1544,7 +1747,7 @@ export default {
 
           name: items[index].name,
           avatar: items[index].avatar,
-        };
+        }
         // if(leads[i].users[j].id === items[index].id){
         //   console.log('already assigned');
         // }
@@ -1556,23 +1759,19 @@ export default {
         country.name
           .toLocaleLowerCase()
           .includes(this.search.toLocaleLowerCase())
-      );
+      )
     },
     paginated_users_to_assign() {
       return this.users_to_assign.slice(
         this.offset_users,
         this.limit_users + this.offset_users
-      );
+      )
     },
     users() {
       // return this.$store.state.users.all
-      var data = [];
-      for (
-        let index = 0;
-        index < this.$store.state.users.all.length;
-        index++
-      ) {
-        data[index] = this.$store.state.users.all[index].name;
+      var data = []
+      for (let index = 0; index < this.$store.state.users.all.length; index++) {
+        data[index] = this.$store.state.users.all[index].name
       }
 
       // return data;
@@ -1582,92 +1781,92 @@ export default {
 
         return data.filter((country) =>
           country.toLocaleLowerCase().includes(this.search.toLocaleLowerCase())
-        );
+        )
       } else {
         return data.filter((country) =>
           country.toLocaleLowerCase().includes(this.search.toLocaleLowerCase())
-        );
+        )
       }
     },
     paginated_users() {
-      return this.users.slice(this.offset, this.limit + this.offset);
+      return this.users.slice(this.offset, this.limit + this.offset)
     },
     users_hasNextPage() {
-      const nextOffset = this.offset + this.limit;
+      const nextOffset = this.offset + this.limit
       return Boolean(
         this.users.slice(nextOffset, this.limit + nextOffset).length
-      );
+      )
     },
     users_hasPrevPage() {
-      const prevOffset = this.offset - this.limit;
+      const prevOffset = this.offset - this.limit
       return Boolean(
         this.users.slice(prevOffset, this.limit + prevOffset).length
-      );
+      )
     },
     contactPerson() {
       // return this.$store.state.contactPeople.allForLeads
-      var data = [];
+      var data = []
       for (
         let index = 0;
         index < this.$store.state.contactPeople.allForLeads.length;
         index++
       ) {
-        data[index] = this.$store.state.contactPeople.allForLeads[index].name;
+        data[index] = this.$store.state.contactPeople.allForLeads[index].name
       }
 
       // return data;
       return data.filter((country) =>
         country.toLocaleLowerCase().includes(this.search.toLocaleLowerCase())
-      );
+      )
     },
     outBoundEmails() {
-      return this.$store.state.emails.all_outbound_emails;
+      return this.$store.state.emails.all_outbound_emails
     },
     emails_contact() {
       // return this.$store.state.contactPeople.allForLeads
-      var data = [];
+      var data = []
       // var index2 = [];
       // for (let index = 0; index < this.$store.state.contactPeople.all.length; index++) {
       // index2[index] = [index];
       for (let i = 0; i < this.$store.state.contactPeople.emails.length; i++) {
-        data[i] = this.$store.state.contactPeople.emails[i];
+        data[i] = this.$store.state.contactPeople.emails[i]
       }
       // }
       // return index2;
 
-      return data;
-      return data.filter((country) => country.includes(this.search));
+      return data
+      return data.filter((country) => country.includes(this.search))
     },
     paginated_contactPerson() {
-      return this.contactPerson.slice(this.offset, this.limit + this.offset);
+      return this.contactPerson.slice(this.offset, this.limit + this.offset)
     },
     contactPerson_hasNextPage() {
-      const nextOffset = this.offset + this.limit;
+      const nextOffset = this.offset + this.limit
       return Boolean(
         this.contactPerson.slice(nextOffset, this.limit + nextOffset).length
-      );
+      )
     },
     contactPerson_hasPrevPage() {
-      const prevOffset = this.offset - this.limit;
+      const prevOffset = this.offset - this.limit
       return Boolean(
         this.contactPerson.slice(prevOffset, this.limit + prevOffset).length
-      );
+      )
     },
     assignedUsers() {
-      var items = this.$store.state.comments.assignedUsers;
-      const element = [];
+      var items = this.$store.state.comments.assignedUsers
+      const element = []
       for (let index = 0; index < items.length; index++) {
         element[index] = {
           id: items[index].id,
           users: items[index].users,
-        };
+        }
       }
-      return element;
+      return element
     },
     todo() {
-      this.todos = this.$store.state.appTodo.all;
+      this.todos = this.$store.state.appTodo.all
 
-      return this.$store.state.appTodo.all;
+      return this.$store.state.appTodo.all
     },
     // proposal(){
     //   this.proposal = this.$store.state.appTodo.all
@@ -1675,98 +1874,91 @@ export default {
     // }
   },
   created() {
-  
-    let loggedIn = isUserLoggedIn();
+    let loggedIn = isUserLoggedIn()
 
     //console.log('helllllloooooooooo',this.$store.state.leads.all.filter(e => e.type === 'lead').filter(e => e.type === 'lead'))
 
-    if(loggedIn){
-    
-    this.fetchAll();
-    if (this.outBoundEmails.length === 0) {
-      this.$store.dispatch("emails/fetch_all_out_mails");
-    }
-    this.$store.dispatch("proposals/fetch");
-    this.$store.dispatch("invoice/fetch");
+    if (loggedIn) {
+      this.fetchAll()
+      if (this.outBoundEmails.length === 0) {
+        this.$store.dispatch("emails/fetch_all_out_mails")
+      }
+      this.$store.dispatch("proposals/fetch")
+      this.$store.dispatch("invoice/fetch")
 
-    if (this.$store.state.branches.states.length === 0) {
-      // this.$store.dispatch('branches/states')
-    }
-    // this.$store.dispatch("leads/fetch");
-    this.$store.dispatch("branches/fetch");
-    this.$store.dispatch("clients/fetch");
-    this.$store.dispatch("contactPeople/fetchForLeads");
-    this.$store.dispatch("contactPeople/fetch");
+      if (this.$store.state.branches.states.length === 0) {
+        // this.$store.dispatch('branches/states')
+      }
+      // this.$store.dispatch("leads/fetch");
+      this.$store.dispatch("branches/fetch")
+      this.$store.dispatch("clients/fetch")
+      this.$store.dispatch("contactPeople/fetchForLeads")
+      this.$store.dispatch("contactPeople/fetch")
 
-    this.$store.dispatch("categories/fetch");
-    this.$store.dispatch("status/fetch");
-  }
+      this.$store.dispatch("categories/fetch")
+      this.$store.dispatch("status/fetch")
+    }
     // this.$store.dispatch('comments/fetch');
-    this.observer = new IntersectionObserver(this.infiniteScroll);
+    this.observer = new IntersectionObserver(this.infiniteScroll)
     // const toast = useToast();
     // toast.success('you did it');
   },
   beforeUpdate() {
-    if(this.$router.currentRoute.params.important_status === true){
-        this.activeTab = 1
-        // alert(this.activeTab)
-        
-      }
-    if(this.$router.currentRoute.params.overdue_status === true){
-        this.activeTab = 2
-        // alert(this.activeTab)
-        
-      }
-      if(this.$router.currentRoute.params.dueToday_status === true){
-        this.activeTab = 3
-        // alert(this.activeTab)
-        
-      }
-      if(this.$router.currentRoute.params.dueTomorrow_status === true){
-        this.activeTab = 4
-        // alert(this.activeTab)
-        
-      }
-      if(this.$router.currentRoute.params.dueThisWeek_status === true){
-        this.activeTab = 5
-        // alert(this.activeTab)
-        
-      }
-      var signAll = []
-      if(this.$store.state.users.signAll != null){
-        signAll.push(this.$store.state.users.signAll)
-      }
-   if(signAll.length > 0){
-    this.composeData.message = signAll[0].signature
-   }
-      // var signAll = [this.$store.state.users.signAll];
-    // this.threadedMail()
-    this.totalBadgeCounts();
-    this.importantBadgeCounts();
-   this.overdueBadgeCounts();
-   this.dueTodayBadgeCounts();
-   this.dueTomorrowBadgeCounts();
-   this.dueThisWeekBadgeCounts();
-   var invoice = this.$store.state.invoice.all;
-   // invoice.forEach(element => {
-     //   this.payment.payment.push({amount:null})
-     // });
-     if (invoice.length > 0) {
+    if (this.$router.currentRoute.params.important_status === true) {
+      this.activeTab = 1
+      // alert(this.activeTab)
     }
-    this.prefixPlusid = this.invoice.prefix + this.invoice.id;
+    if (this.$router.currentRoute.params.overdue_status === true) {
+      this.activeTab = 2
+      // alert(this.activeTab)
+    }
+    if (this.$router.currentRoute.params.dueToday_status === true) {
+      this.activeTab = 3
+      // alert(this.activeTab)
+    }
+    if (this.$router.currentRoute.params.dueTomorrow_status === true) {
+      this.activeTab = 4
+      // alert(this.activeTab)
+    }
+    if (this.$router.currentRoute.params.dueThisWeek_status === true) {
+      this.activeTab = 5
+      // alert(this.activeTab)
+    }
+    var signAll = []
+    if (this.$store.state.users.signAll != null) {
+      signAll.push(this.$store.state.users.signAll)
+    }
+    if (signAll.length > 0) {
+      this.composeData.message = signAll[0].signature
+    }
+    // var signAll = [this.$store.state.users.signAll];
+    // this.threadedMail()
+    this.totalBadgeCounts()
+    this.importantBadgeCounts()
+    this.overdueBadgeCounts()
+    this.dueTodayBadgeCounts()
+    this.dueTomorrowBadgeCounts()
+    this.dueThisWeekBadgeCounts()
+    var invoice = this.$store.state.invoice.all
+    // invoice.forEach(element => {
+    //   this.payment.payment.push({amount:null})
+    // });
+    if (invoice.length > 0) {
+    }
+    this.prefixPlusid = this.invoice.prefix + this.invoice.id
     // document.getElementById('flatpickr-date').removeAttribute('readonly')
     // var invoice = this.$store.state.invoice.all;
     // if (invoice.length > 0) {
-      //   this.invoice.id = invoice[invoice.length - 1].id + 1
-      // } else {
-        //   this.invoice.id = 1
-        // }
-        if (this.successMessage) {
-          if (this.$store.state.leads.isLoadingLeads == true) {
-            // this.$toast.info({component: ToastificationContent,props:{text:'Info '}}, {position: POSITION.BOTTOM_LEFT})
-            // const toast = useToast;
-            // toast.success('hee')
-            // this.$toast.success(this.successMessage, {
+    //   this.invoice.id = invoice[invoice.length - 1].id + 1
+    // } else {
+    //   this.invoice.id = 1
+    // }
+    if (this.successMessage) {
+      if (this.$store.state.leads.isLoadingLeads == true) {
+        // this.$toast.info({component: ToastificationContent,props:{text:'Info '}}, {position: POSITION.BOTTOM_LEFT})
+        // const toast = useToast;
+        // toast.success('hee')
+        // this.$toast.success(this.successMessage, {
         //   position: "bottom-left",
         //   timeout: 5000,
         //   closeOnClick: true,
@@ -1782,32 +1974,31 @@ export default {
         // })
         // this.$refs.snackbar[t](this.successMessage)
         // this.$toast(
-          // {
-            //   component: ToastificationContent,
-            //   props: {
-              //     title: this.successMessage,
-              //     icon: "CheckIcon",
-              //     variant: "dark",
-              //   },
-              // },{
-                //   position: "bottom-left",
-                //   timeout: 8000
-                // }
+        // {
+        //   component: ToastificationContent,
+        //   props: {
+        //     title: this.successMessage,
+        //     icon: "CheckIcon",
+        //     variant: "dark",
+        //   },
+        // },{
+        //   position: "bottom-left",
+        //   timeout: 8000
+        // }
         // )
       }
     }
-    
   },
- 
+
   updated() {
-    this.autofillClient();
+    this.autofillClient()
     // this.getTaxbleAmt()
-    var t = "info";
+    var t = "info"
     // if(this.errors != ''){
-      //   console.log('hhh');
-      //   this.$toast.error('this.errors.branch_id[0]', {
-        //     position: "bottom-left",
-        //     timeout: 5000,
+    //   console.log('hhh');
+    //   this.$toast.error('this.errors.branch_id[0]', {
+    //     position: "bottom-left",
+    //     timeout: 5000,
     //       closeOnClick: true,
     //       pauseOnFocusLoss: true,
     //       pauseOnHover: true,
@@ -1821,13 +2012,11 @@ export default {
     //     })
     //   }
   },
-  
-  
+
   methods: {
-  
     file_upload() {
-      console.log("hloo2:file_upload");
-      document.getElementById("file_attachment").click();
+      console.log("hloo2:file_upload")
+      document.getElementById("file_attachment").click()
       //  this.uploadFileS3(this.file_name2)
       // const image = e.target.files[0];
       // const reader = new FileReader();
@@ -1837,29 +2026,29 @@ export default {
     },
     onFileChange2(e) {
       // alert('hh');
-      console.log("hllo1 : onfileChange2");
+      console.log("hllo1 : onfileChange2")
 
-      let image = e.target.files;
-      console.log("e:", e);
-      this.file_name2 = [];
-      console.log("inside onload before2:", this.file_name2);
+      let image = e.target.files
+      console.log("e:", e)
+      this.file_name2 = []
+      console.log("inside onload before2:", this.file_name2)
       // console.log(image.length);
       image.forEach((x) => {
-        const reader = new FileReader();
+        const reader = new FileReader()
 
-        console.log("reader:", reader);
+        console.log("reader:", reader)
         reader.onload = (e) => {
           let data = {
             file: e.target.result,
             name: x.name,
-          };
-          console.log("data:", data);
-          console.log("inside onload before:", this.file_name2);
-          this.file_name2.push(data);
-          console.log("inside onload:", this.file_name2);
-          console.log("inside onload:", this.file_name2.length);
+          }
+          console.log("data:", data)
+          console.log("inside onload before:", this.file_name2)
+          this.file_name2.push(data)
+          console.log("inside onload:", this.file_name2)
+          console.log("inside onload:", this.file_name2.length)
           //  var data1 =  {
-          this.uploadFileS3Task(this.file_name2);
+          this.uploadFileS3Task(this.file_name2)
           //attach:this.file_name2.length>0 ? this.file_name2 : "null"};
 
           //console.log("data-in-upload:",data1)
@@ -1872,22 +2061,22 @@ export default {
           //   })
 
           // url[index] = data;
-        };
+        }
 
         // const element = array[index];
 
-        reader.readAsDataURL(x);
+        reader.readAsDataURL(x)
         // reader.readAsDataURL(this.file_name2[index])
         // console.log(cd);
 
         // real_url[index] = url;
         //  console.log(this.file_name2);
-      });
+      })
 
       // alert(this.file_name2);
 
       // if(this.file_name2.length > 0){
-      console.log("inside onload after the loop:", this.file_name2);
+      console.log("inside onload after the loop:", this.file_name2)
       //   if(this.file_name2.length > 0){
       // this.uploadFileS3(this.file_name2)
 
@@ -1919,12 +2108,12 @@ export default {
     },
     uploadFileS3Task(file) {
       // document.getElementById('fileUpload2').click()
-      console.log("filelength:", file.length);
-      console.log("file:", file);
+      console.log("filelength:", file.length)
+      console.log("file:", file)
       var data = {
         attach: file ? file : "null",
-      };
-      this.$store.dispatch("tasks/upload_file_s3", { data: data });
+      }
+      this.$store.dispatch("tasks/upload_file_s3", { data: data })
       // .then(() => {
       //   // resolve();
       // })
@@ -1935,44 +2124,43 @@ export default {
       // };
       // this.$store.dispatch('emails/fetch_emails', emails_data)
     },
-   
 
     sendEmail2(data2, file_name2) {
       // alert('he')
       data2.subject = this.replySubject
-      console.log("sending emails...");
-      console.log(data2, "data2");
-      var bcc_email = [];
-      var cc_email = [];
+      console.log("sending emails...")
+      console.log(data2, "data2")
+      var bcc_email = []
+      var cc_email = []
 
-      var s3_url = null;
-      var s3_urls = [];
+      var s3_url = null
+      var s3_urls = []
       if (this.$store.state.tasks.s3_url.length > 0) {
-        s3_url = this.$store.state.tasks.s3_url;
+        s3_url = this.$store.state.tasks.s3_url
       }
       if (s3_url != null) {
         for (let index = 0; index < s3_url.length; index++) {
-          s3_urls[index] = s3_url[index].url;
+          s3_urls[index] = s3_url[index].url
         }
       }
       if (!data2.from || !data2.message || !data2.to || !data2.subject) {
-        return;
+        return
       } else {
-        this.$refs["reply-modal"].hide();
+        this.$refs["reply-modal"].hide()
       }
       if (data2.bcc) {
         data2.bcc.forEach(function (email, index) {
           // console.log(email.email);
-          bcc_email[index] = email.email;
-        });
+          bcc_email[index] = email.email
+        })
       }
       if (data2.cc) {
         data2.cc.forEach(function (email, index) {
           // console.log(email.email);
-          cc_email[index] = email.email;
-        });
+          cc_email[index] = email.email
+        })
       }
-      var data = {};
+      var data = {}
       if (data2.bcc || data2.cc) {
         data = {
           to: data2.to,
@@ -1983,7 +2171,7 @@ export default {
           plain_text: data2.message.replace(/(<([^>]+)>)/gi, ""),
           subject: data2.subject,
           from: data2.from,
-        };
+        }
       } else {
         data = {
           to: data2.to,
@@ -1994,7 +2182,7 @@ export default {
           message: data2.message,
           subject: data2.subject,
           from: data2.from,
-        };
+        }
       }
       this.$toast.success("Sending", {
         position: "bottom-left",
@@ -2009,13 +2197,13 @@ export default {
         closeButton: "button",
         icon: true,
         rtl: false,
-      });
-      console.log(data);
+      })
+      console.log(data)
       // this.success = this.$toast();
       this.$store.dispatch("emails/sendEmail", { data }).then(() => {
         // console.log(res);
         if (this.successMessage) {
-          this.$toast.success('Email Sent Succesfully!', {
+          this.$toast.success("Email Sent Succesfully!", {
             position: "bottom-left",
             timeout: 5000,
             closeOnClick: true,
@@ -2028,27 +2216,25 @@ export default {
             closeButton: "button",
             icon: true,
             rtl: false,
-          });
+          })
         }
         // this.$refs['compose-modal'].hide()
-        this.composeData.to = "";
-        this.composeData.from = "";
-        this.composeData.cc = "";
-        this.composeData.bcc = "";
-        this.composeData.subject = "";
-        this.composeData.message = "";
+        this.composeData.to = ""
+        this.composeData.from = ""
+        this.composeData.cc = ""
+        this.composeData.bcc = ""
+        this.composeData.subject = ""
+        this.composeData.message = ""
         while (this.file_name2.length > 0) {
-          this.file_name2.pop();
+          this.file_name2.pop()
         }
-
-       
-      });
+      })
     },
-    openCalendar(id){
-      document.getElementById('vue-date-pickr'+id).click()
+    openCalendar(id) {
+      document.getElementById("vue-date-pickr" + id).click()
     },
-    chooseFileTask(){
-      document.getElementById('file_task').click()
+    chooseFileTask() {
+      document.getElementById("file_task").click()
     },
     // onTabChange(tab){
     //   console.log(this.activeTab, "this is active tab")
@@ -2056,22 +2242,22 @@ export default {
     //    console.log('hello this is avtive tab')
     //   }
     // },
-  //  async totalBadgeCounts(){
-  //     let data=[];
-  //     if(this.$store.state.users.all.filter(e => e.email === JSON.parse(localStorage.getItem('userData')).email)[0].user_role_id === 1){
-  //           data = this.$store.state.leads.all.filter(e => e.type === 'lead').filter(e => e.type === 'lead');
-  //           // items = this
-  //         }else{
-  //       this.$store.state.leads.all.filter(e => e.type === 'lead').filter(e => e.type === 'lead').forEach(a => {
-  //           if(a.users.filter(e => e.email === JSON.parse(localStorage.getItem('userData')).email).length > 0){
-  //             data.push(a)
-  //           }
-            
-  //         });
-  //       }
-  //     data=data.filter(e  =>e.priority === 1 || e.priority===2||e.priority === 3 || e.priority===4|| e.priority===5)
-  //     this.totalLength=data.length
-  //   },
+    //  async totalBadgeCounts(){
+    //     let data=[];
+    //     if(this.$store.state.users.all.filter(e => e.email === JSON.parse(localStorage.getItem('userData')).email)[0].user_role_id === 1){
+    //           data = this.$store.state.leads.all.filter(e => e.type === 'lead').filter(e => e.type === 'lead');
+    //           // items = this
+    //         }else{
+    //       this.$store.state.leads.all.filter(e => e.type === 'lead').filter(e => e.type === 'lead').forEach(a => {
+    //           if(a.users.filter(e => e.email === JSON.parse(localStorage.getItem('userData')).email).length > 0){
+    //             data.push(a)
+    //           }
+
+    //         });
+    //       }
+    //     data=data.filter(e  =>e.priority === 1 || e.priority===2||e.priority === 3 || e.priority===4|| e.priority===5)
+    //     this.totalLength=data.length
+    //   },
     // async importantBadgeCounts(){
     //   // let data=this.$store.state.leads.all.filter(e => e.type === 'lead').filter(e => e.type === 'lead');
     //   let data=[];
@@ -2083,7 +2269,7 @@ export default {
     //         if(a.users.filter(e => e.email === JSON.parse(localStorage.getItem('userData')).email).length > 0){
     //           data.push(a)
     //         }
-            
+
     //       });
     //     }
     //   data=data.filter(e  => e.priority === 5 || e.priority===4)
@@ -2100,7 +2286,7 @@ export default {
     //         if(a.users.filter(e => e.email === JSON.parse(localStorage.getItem('userData')).email).length > 0){
     //           data.push(a)
     //         }
-            
+
     //       });
     //     }
     //   data=data.filter(e  => this.DaysLeft(e.created_at, e.due_date) < 0)
@@ -2117,7 +2303,7 @@ export default {
     //         if(a.users.filter(e => e.email === JSON.parse(localStorage.getItem('userData')).email).length > 0){
     //           data.push(a)
     //         }
-            
+
     //       });
     //     }
     //   data=data.filter(e =>this.DaysLeft(e.created_at, e.due_date)>0 && this.DaysLeft(e.created_at, e.due_date)<=1)
@@ -2135,7 +2321,7 @@ export default {
     //         if(a.users.filter(e => e.email === JSON.parse(localStorage.getItem('userData')).email).length > 0){
     //           data.push(a)
     //         }
-            
+
     //       });
     //     }
     //   data=data.filter(e =>this.DaysLeft(e.created_at, e.due_date)>=0 && this.DaysLeft(e.created_at, e.due_date)<1 )
@@ -2152,7 +2338,7 @@ export default {
     //         if(a.users.filter(e => e.email === JSON.parse(localStorage.getItem('userData')).email).length > 0){
     //           data.push(a)
     //         }
-            
+
     //       });
     //     }
     //   data=data.filter(e  => this.DaysLeft(e.created_at,e.due_date)<=6 && this.DaysLeft(e.created_at,e.due_date)>0)
@@ -2162,22 +2348,21 @@ export default {
     //   let data=this.$store.state.leads.all.filter(e => e.type === 'lead').filter(e => e.type === 'lead');
     //   data=data.filter(e =>)
     // },
-//     dueThisWeek(due,created){
-      
-// const dueDate = new Date(due);
-// const createdDate = new Date(created);
+    //     dueThisWeek(due,created){
 
-// // calculate the difference in days
-// const differenceInMilliseconds = dueDate.getTime() - createdDate.getTime();
-//   const differenceInDays = Math.round( differenceInMilliseconds / (24 * 60 * 60 * 1000));
-// //console.log(differenceInDays)
-// // console.log(differenceInMilliseconds)
-// return differenceInDays
+    // const dueDate = new Date(due);
+    // const createdDate = new Date(created);
 
+    // // calculate the difference in days
+    // const differenceInMilliseconds = dueDate.getTime() - createdDate.getTime();
+    //   const differenceInDays = Math.round( differenceInMilliseconds / (24 * 60 * 60 * 1000));
+    // //console.log(differenceInDays)
+    // // console.log(differenceInMilliseconds)
+    // return differenceInDays
 
-//     }
- //   ,
-   
+    //     }
+    //   ,
+
     // async exportToPDF(i) {
     //   // console.log(urlBase64);
     //   this.loader_proposal = true;
@@ -2727,75 +2912,74 @@ export default {
     //     this.file_name.splice(i, 1);
     //   });
     // },
-  
-//     async uploadFile(e) {
-//       let image = e.target.files;
-//       let image_name = []
-//       const filePathsPromises = [];
-//     image.forEach(file => {
-//       filePathsPromises.push(this.base64(file));
-//       image_name.push(file.name)
-//       // filePathsPromises.push(file.name)
-//     });
-//     const filePaths = await Promise.all(filePathsPromises,image_name);
-//     const mappedFiles = filePaths.map((base64File,image_name) => ({
-//        file: base64File,
-//        name:image[image_name].name,
-//        type:'attachmentsType'
-//        }));
 
-//        let tempFile = mappedFiles
+    //     async uploadFile(e) {
+    //       let image = e.target.files;
+    //       let image_name = []
+    //       const filePathsPromises = [];
+    //     image.forEach(file => {
+    //       filePathsPromises.push(this.base64(file));
+    //       image_name.push(file.name)
+    //       // filePathsPromises.push(file.name)
+    //     });
+    //     const filePaths = await Promise.all(filePathsPromises,image_name);
+    //     const mappedFiles = filePaths.map((base64File,image_name) => ({
+    //        file: base64File,
+    //        name:image[image_name].name,
+    //        type:'attachmentsType'
+    //        }));
 
+    //        let tempFile = mappedFiles
 
-// tempFile.forEach((obj2)=>{
-//   const exists = this.file_name.some(obj1=>obj1.name === obj2.name);
-//   if(!exists){
-//     console.log("not duplicate")
-//     // obj2.type ='attachmentsType';
-//     this.file_name.push(obj2);
-//   }
-// })
+    // tempFile.forEach((obj2)=>{
+    //   const exists = this.file_name.some(obj1=>obj1.name === obj2.name);
+    //   if(!exists){
+    //     console.log("not duplicate")
+    //     // obj2.type ='attachmentsType';
+    //     this.file_name.push(obj2);
+    //   }
+    // })
 
-//     console.log(mappedFiles);
-//     this.uploadFileS3(this.file_name)
+    //     console.log(mappedFiles);
+    //     this.uploadFileS3(this.file_name)
 
-//     },
-//     base64(file) {
-//         return new Promise((resolve, reject) => {
-//         const reader = new FileReader();
-//         reader.readAsDataURL(file);
-//         reader.onload = () => resolve(reader.result);
-//         reader.onerror = error => reject(error);
-//       });
-//     },
+    //     },
+    //     base64(file) {
+    //         return new Promise((resolve, reject) => {
+    //         const reader = new FileReader();
+    //         reader.readAsDataURL(file);
+    //         reader.onload = () => resolve(reader.result);
+    //         reader.onerror = error => reject(error);
+    //       });
+    //     },
 
-//     uploadFileS3(file) {
-//       let data = {
-//         attach: file ? file : "null",
-//       };
-//       this.$store
-//         .dispatch("attachments/add", { data: data })
-//         .then(() => {
-//           resolve();
-//         })
-//         .catch(() => { });
-//     },
-//     clientAttachmentDropdown(e) {
-//       if (this.dropClient === false) {
-//         this.dropClient = true;
-//         setTimeout(() => {
-//           document.body.addEventListener("click", this.clickEventClient);
-//         }, 1);
-//       }
-//     },
+    //     uploadFileS3(file) {
+    //       let data = {
+    //         attach: file ? file : "null",
+    //       };
+    //       this.$store
+    //         .dispatch("attachments/add", { data: data })
+    //         .then(() => {
+    //           resolve();
+    //         })
+    //         .catch(() => { });
+    //     },
+    //     clientAttachmentDropdown(e) {
+    //       if (this.dropClient === false) {
+    //         this.dropClient = true;
+    //         setTimeout(() => {
+    //           document.body.addEventListener("click", this.clickEventClient);
+    //         }, 1);
+    //       }
+    //     },
     clickEventClient(ev) {
-      console.log(ev.target, "evevevevevevev");
-      console.log(this.$refs.clientDrop.contains(ev.target), "eeeeeeeeeee");
+      console.log(ev.target, "evevevevevevev")
+      console.log(this.$refs.clientDrop.contains(ev.target), "eeeeeeeeeee")
       if (
         ev.target != this.$refs.clientDrop &&
         !this.$refs.clientDrop.contains(ev.target)
       ) {
-        this.dropClient = false;
+        this.dropClient = false
       }
     },
     // taskAttachmentDropdown(e) {
@@ -2807,13 +2991,13 @@ export default {
     //   }
     // },
     clickEventTask(ev) {
-      console.log(ev.target, "evevevevevevev");
-      console.log(this.$refs.taskDrop.contains(ev.target), "eeeeeeeeeee");
+      console.log(ev.target, "evevevevevevev")
+      console.log(this.$refs.taskDrop.contains(ev.target), "eeeeeeeeeee")
       if (
         ev.target != this.$refs.taskDrop &&
         !this.$refs.taskDrop.contains(ev.target)
       ) {
-        this.dropTask = false;
+        this.dropTask = false
       }
     },
     // onProgress(e) {
@@ -2852,25 +3036,27 @@ export default {
     //   return arr;
     // },
     sendTask() {
-      var tasks = this.$store.state.tasks.all.filter(e => e.type === 'task');
-      var leads = this.$store.state.leads.all.filter(e => e.type === 'lead').filter(e => e.type === 'lead');
-      var combine = [];
-      var details = null;
+      var tasks = this.$store.state.tasks.all.filter((e) => e.type === "task")
+      var leads = this.$store.state.leads.all
+        .filter((e) => e.type === "lead")
+        .filter((e) => e.type === "lead")
+      var combine = []
+      var details = null
       leads.forEach((element) => {
-        combine.push(element);
-      });
+        combine.push(element)
+      })
       tasks.forEach((element) => {
-        combine.push(element);
-      });
+        combine.push(element)
+      })
       combine.forEach((element) => {
         // combine.push(element)
         if (this.taskId != 0 || this.taskId != null) {
           if (element.id === this.taskId) {
-            details = element;
+            details = element
           }
         }
-      });
-      return details || {};
+      })
+      return details || {}
     },
     // replyModal() {
     //   this.$refs["reply-modal"].show();
@@ -2940,11 +3126,11 @@ export default {
     //   }
     // },
     getStatusColor(percent) {
-      console.log("state" + percent.split("%")[0]);
+      console.log("state" + percent.split("%")[0])
       if (Number(percent.split("%")[0]) >= 100) {
-        return "success";
+        return "success"
       } else {
-        return "danger";
+        return "danger"
       }
     },
     // getStatusForInvoice(data) {
@@ -2976,11 +3162,11 @@ export default {
     //   }
     // },
     getStatusForProposal(data) {
-      console.log("status");
-      var percent = 0;
-      var total = 0;
-      var status = 0;
-      var state = false;
+      console.log("status")
+      var percent = 0
+      var total = 0
+      var status = 0
+      var state = false
       this.$store.state.invoice.all.forEach((element) => {
         // if(element.title == 'invoice'){
 
@@ -2989,11 +3175,11 @@ export default {
             // total = element
             // status = status + e.paid_amount
             // total = e.amount
-            state = true;
-            total = element.amount;
-            status = status + e.amount;
+            state = true
+            total = element.amount
+            status = status + e.amount
           }
-        });
+        })
 
         // element.invoice.forEach(i => {
         //   if(i.id === data.id){
@@ -3001,13 +3187,13 @@ export default {
         //   }
         // });
         // }
-      });
-      percent = (total / status) * 100;
-      console.log("status: ", status);
-      console.log("total: ", total);
-      console.log(data);
+      })
+      percent = (total / status) * 100
+      console.log("status: ", status)
+      console.log("total: ", total)
+      console.log(data)
       if (state) {
-        return percent.toFixed(1) + "% invoiced";
+        return percent.toFixed(1) + "% invoiced"
       }
     },
     // convert(str) {
@@ -3238,7 +3424,7 @@ export default {
       // {
       return (
         this.payment.amount - Number(this.getTotalAmt(this.payment.payment))
-      );
+      )
 
       // }else{
       //   return 0
@@ -3246,45 +3432,47 @@ export default {
     },
     // addPayment(){
     setPayment(index, e) {
-      console.log([index, e]);
+      console.log([index, e])
       this.payment.payment.forEach((element) => {
         if (element.invoice_id == index) {
-          element.amount = Number(e);
+          element.amount = Number(e)
         }
-      });
+      })
       // this.payment.payment[index].amount = Number(e)
     },
     setTds(index, e) {
-      console.log([index, e]);
+      console.log([index, e])
       this.payment.payment.forEach((element) => {
         if (element.invoice_id === index) {
-          element.tds = Number(e);
+          element.tds = Number(e)
           if (element.tds != 0) {
-            element.amount = element.amount - element.tds;
+            element.amount = element.amount - element.tds
           }
         }
-      });
+      })
       // this.payment.payment[index].tds = Number(e)
       // this.payment.payment[index].amount = this.payment.payment[index].amount - this.payment.payment[index].tds
     },
     // },
     getinvoiceBranch(task_id) {
-      var task = [];
-      var name = "";
+      var task = []
+      var name = ""
       if (this.$router.currentRoute.name == "tasks") {
-        task = this.$store.state.tasks.all.filter(e => e.type === 'task');
+        task = this.$store.state.tasks.all.filter((e) => e.type === "task")
       } else {
-        task = this.$store.state.leads.all.filter(e => e.type === 'lead').filter(e => e.type === 'lead');
+        task = this.$store.state.leads.all
+          .filter((e) => e.type === "lead")
+          .filter((e) => e.type === "lead")
       }
       task.forEach((element) => {
         if (element.id === task_id) {
-          name = element.branch.name;
+          name = element.branch.name
         }
-      });
-      return name;
+      })
+      return name
     },
     getinvoiceDate(date) {
-      var d = new Date(date);
+      var d = new Date(date)
       const ms = [
         "Jan",
         "Feb",
@@ -3298,143 +3486,142 @@ export default {
         "Oct",
         "Nov",
         "Dec",
-      ];
+      ]
 
-      var date_no = d.getDate();
-      var month = ms[d.getMonth()];
-      var year = d.getFullYear();
-      return date_no + " " + month + " " + year;
+      var date_no = d.getDate()
+      var month = ms[d.getMonth()]
+      var year = d.getFullYear()
+      return date_no + " " + month + " " + year
     },
     getLargestId() {
-      var invoice = this.$store.state.invoice.allData;
-      var array = [];
+      var invoice = this.$store.state.invoice.allData
+      var array = []
       if (invoice.length > 0) {
         invoice.forEach((element) => {
-          array.push(element.id);
-        });
-        this.invoice.id = Math.max(...array);
+          array.push(element.id)
+        })
+        this.invoice.id = Math.max(...array)
         // let prefix = invoice.filter(e => e.id = this.invoice.id).invoice_number
         // this.invoice.id = prefix+'/'+this.invoice.id
         // return Math.max(...array) + 1
         let prefix = invoice.filter((e) => (e.id = this.invoice.id))[0]
-          .invoice_number;
-          this.invoice.id = this.invoice.id +1
+          .invoice_number
+        this.invoice.id = this.invoice.id + 1
         this.invoice.id = prefix //+ "/" + this.invoice.id;
         // this.invoice.id = this.invoice.id;
-
       } else {
         // return 1;
-        this.invoice.id = 1;
+        this.invoice.id = 1
       }
-      console.log(this.invoice.id);
+      console.log(this.invoice.id)
     },
     getSubTotal(invoice) {
-      let total = invoice.sub_total - invoice.pocket_expenses;
-      let t = 0;
+      let total = invoice.sub_total - invoice.pocket_expenses
+      let t = 0
       if (invoice.adjustment_amt > 0) {
-        t = total - invoice.adjustment_amt;
-        console.log("positive");
+        t = total - invoice.adjustment_amt
+        console.log("positive")
       } else {
-        t = total + invoice.adjustment_amt;
-        console.log("negative");
+        t = total + invoice.adjustment_amt
+        console.log("negative")
       }
-      return t;
+      return t
     },
     getTotalInvoice() {
-      var data = this.$store.state.invoice.all;
-      var total = 0;
+      var data = this.$store.state.invoice.all
+      var total = 0
       data.forEach((element) => {
-        total = total + element.total_amt;
-      });
-      return total;
+        total = total + element.total_amt
+      })
+      return total
     },
     validNumber(e) {
-      let stringValue = e.target.value.toString();
-      let regex = /^\d*(\.\d{1,2})?$/;
+      let stringValue = e.target.value.toString()
+      let regex = /^\d*(\.\d{1,2})?$/
       if (!stringValue.match(regex) && this.price !== "") {
-        this.invoice.total_amt = this.previousPrice;
+        this.invoice.total_amt = this.previousPrice
       }
-      this.previousPrice = this.invoice.total_amt;
+      this.previousPrice = this.invoice.total_amt
     },
     getStateCode(data) {
-      console.log(data);
-      this.invoice.state_code = Number(data.fips_code);
+      console.log(data)
+      this.invoice.state_code = Number(data.fips_code)
     },
 
     shortText() {
       if (this.textLength) {
-        let newText = this.text.substring(0);
-        return newText;
+        let newText = this.text.substring(0)
+        return newText
       } else {
         /*let newText = this.lorem.substring(0,50) + `...`;*/
-        let newText = this.text.substring(0, 400);
-        return newText;
+        let newText = this.text.substring(0, 400)
+        return newText
       }
     },
     addAllProposalAmt() {
-      var all = this.$store.state.proposals.allProposals;
-      var total = 0;
+      var all = this.$store.state.proposals.allProposals
+      var total = 0
       all.forEach((element) => {
         element.proposal_fees.forEach((e) => {
-          total = total + e.amount;
-        });
-      });
-      this.invoice.amount = total;
+          total = total + e.amount
+        })
+      })
+      this.invoice.amount = total
     },
     showHidePendingFollowups() {
-      var y = document.getElementById("desc_pending_followups");
+      var y = document.getElementById("desc_pending_followups")
       if (y.style.display === "none") {
-        this.pendingIconName = "ChevronDownIcon";
-        y.style.display = "block";
+        this.pendingIconName = "ChevronDownIcon"
+        y.style.display = "block"
       } else {
-        this.pendingIconName = "ChevronRightIcon";
+        this.pendingIconName = "ChevronRightIcon"
 
-        y.style.display = "none";
+        y.style.display = "none"
       }
     },
     showHideHistoryFollowups() {
-      var z = document.getElementById("desc_history_followups");
+      var z = document.getElementById("desc_history_followups")
       if (z.style.display === "none") {
-        this.historyIconName = "ChevronDownIcon";
-        z.style.display = "block";
+        this.historyIconName = "ChevronDownIcon"
+        z.style.display = "block"
       } else {
-        this.historyIconName = "ChevronRightIcon";
+        this.historyIconName = "ChevronRightIcon"
 
-        z.style.display = "none";
+        z.style.display = "none"
       }
     },
     showHideUpcomingFollowups() {
-      var x = document.getElementById("desc_upcoming_followups");
+      var x = document.getElementById("desc_upcoming_followups")
 
       if (x.style.display === "none") {
-        this.upcomingIconName = "ChevronDownIcon";
-        x.style.display = "block";
+        this.upcomingIconName = "ChevronDownIcon"
+        x.style.display = "block"
       } else {
-        this.upcomingIconName = "ChevronRightIcon";
+        this.upcomingIconName = "ChevronRightIcon"
 
-        x.style.display = "none";
+        x.style.display = "none"
       }
     },
     showOrHideTaskAttach() {
-      var x = document.getElementById("desc_task_attach");
+      var x = document.getElementById("desc_task_attach")
       if (x.style.display === "none") {
-        this.taskIconName = "ChevronDownIcon";
-        x.style.display = "block";
+        this.taskIconName = "ChevronDownIcon"
+        x.style.display = "block"
       } else {
-        this.taskIconName = "ChevronRightIcon";
+        this.taskIconName = "ChevronRightIcon"
 
-        x.style.display = "none";
+        x.style.display = "none"
       }
     },
     showOrHideClientAttach() {
-      var x = document.getElementById("desc_client_attach");
+      var x = document.getElementById("desc_client_attach")
       if (x.style.display === "none") {
-        this.clientIconName = "ChevronDownIcon";
-        x.style.display = "block";
+        this.clientIconName = "ChevronDownIcon"
+        x.style.display = "block"
       } else {
-        this.clientIconName = "ChevronRightIcon";
+        this.clientIconName = "ChevronRightIcon"
 
-        x.style.display = "none";
+        x.style.display = "none"
       }
     },
     pan() {
@@ -3442,38 +3629,45 @@ export default {
         if (
           isNaN(
             this.invoice.gstNumber.slice(0, 2) +
-            this.invoice.gstNumber.slice(7, 10) +
-            this.invoice.gstNumber.slice(14, 15)
+              this.invoice.gstNumber.slice(7, 10) +
+              this.invoice.gstNumber.slice(14, 15)
           ) === false &&
           isNaN(
             this.invoice.gstNumber.slice(2, 7) +
-            this.invoice.gstNumber.slice(11, 12) +
-            this.invoice.gstNumber.slice(13, 14)
+              this.invoice.gstNumber.slice(11, 12) +
+              this.invoice.gstNumber.slice(13, 14)
           ) &&
           (9 > +this.invoice.gstNumber.slice(12, 13) > 0 ||
             isNaN(this.invoice.gstNumber.slice(12, 13)))
         ) {
           // this.invoice.pan_number=this.invoice.gstNumber.slice(2,12);
-          let states = this.$store.state.branches.states;
+          let states = this.$store.state.branches.states
           let stateFilter = states.filter((x) => {
-            return x.fips_code === this.invoice.gstNumber.slice(0, 2);
-          });
-          console.log(stateFilter, "sssss");
-          console.log(stateFilter);
-          this.invoice.state = stateFilter;
+            return x.fips_code === this.invoice.gstNumber.slice(0, 2)
+          })
+          console.log(stateFilter, "sssss")
+          console.log(stateFilter)
+          this.invoice.state = stateFilter
           // this.selectedState=stateFilter[0].name;
-          this.gsterr = false;
-          console.log("noerr");
+          this.gsterr = false
+          console.log("noerr")
         }
       } else {
         // this.formData.pan_number=''
-        this.invoice.state = null;
+        this.invoice.state = null
       }
     },
     addInvoice() {
       // console.log(this.invoice);
       const data = {
-        id: this.$store.state.invoice.allData.length > 0 ? Number(this.$store.state.invoice.allData[this.$store.state.invoice.allData.length - 1].id) +1 : 1,
+        id:
+          this.$store.state.invoice.allData.length > 0
+            ? Number(
+                this.$store.state.invoice.allData[
+                  this.$store.state.invoice.allData.length - 1
+                ].id
+              ) + 1
+            : 1,
         proposal_id: this.proposal_edit_id,
         client_id: this.invoice.client.id,
         client_gst_number: this.invoice.gstNumber,
@@ -3503,13 +3697,13 @@ export default {
         adjustment_amt: this.invoice.adjustments,
         total_amt: this.invoice.total,
         // total:this.invoice.total
-      };
-      console.log(data);
+      }
+      console.log(data)
       this.$store.dispatch("invoice/store", data).then(() => {
-        this.$store.dispatch("invoice/get", this.taskId);
-        this.$store.dispatch("invoice/fetch");
-        this.$refs["invoice-modal"].hide();
-      });
+        this.$store.dispatch("invoice/get", this.taskId)
+        this.$store.dispatch("invoice/fetch")
+        this.$refs["invoice-modal"].hide()
+      })
     },
     updateInvoice() {
       const data = {
@@ -3541,15 +3735,15 @@ export default {
         adjustment_amt: this.invoice.adjustments,
         total_amt: this.invoice.total,
         // total:this.invoice.total
-      };
-      console.log(data);
+      }
+      console.log(data)
       this.$store
         .dispatch("invoice/update", { payload: data, id: this.invoice.editId })
         .then(() => {
-          this.$store.dispatch("invoice/get", this.taskId);
-          this.$store.dispatch("invoice/fetch");
-          this.$refs["invoice-modal"].hide();
-        });
+          this.$store.dispatch("invoice/get", this.taskId)
+          this.$store.dispatch("invoice/fetch")
+          this.$refs["invoice-modal"].hide()
+        })
     },
     // getGST(){
     //   if(this.invoice.igst != 0 ){
@@ -3562,7 +3756,7 @@ export default {
       // if(this.invoice.taxable_amt != null && this.invoice.amount != null && this.invoice.discount != null )
       // {
       // this.invoice.taxable_amt = 0
-      this.invoice.taxble_amt = this.invoice.amount - this.invoice.discount;
+      this.invoice.taxble_amt = this.invoice.amount - this.invoice.discount
       // if(this.invoice.amount != null){
 
       //   this.invoice.taxble_amt = this.invoice.amount;
@@ -3576,42 +3770,42 @@ export default {
       // this.invoice.taxble_amt = this.invoice.amount
       this.invoice.igst_amt =
         (Number(this.invoice.taxble_amt ?? 0) / 100) *
-        Number(this.invoice.igst ?? 0);
+        Number(this.invoice.igst ?? 0)
       this.invoice.sgst_amt =
         (Number(this.invoice.taxble_amt ?? 0) / 100) *
-        Number(this.invoice.sgst ?? 0);
+        Number(this.invoice.sgst ?? 0)
       this.invoice.cgst_amt =
         (Number(this.invoice.taxble_amt ?? 0) / 100) *
-        Number(this.invoice.cgst ?? 0);
+        Number(this.invoice.cgst ?? 0)
       this.invoice.utgst_amt =
         (Number(this.invoice.taxble_amt ?? 0) / 100) *
-        Number(this.invoice.utgst ?? 0);
+        Number(this.invoice.utgst ?? 0)
 
       this.invoice.total_amt =
         Number(this.invoice.taxble_amt ?? 0) +
         Number(
           Number(this.invoice.igst_amt ?? 0) +
-          Number(this.invoice.sgst_amt ?? 0) +
-          Number(this.invoice.cgst_amt ?? 0) +
-          Number(this.invoice.utgst_amt ?? 0)
-        );
-      this.invoice.sub_total = Number(this.invoice.total_amt ?? 0);
-      var adjust = 0;
+            Number(this.invoice.sgst_amt ?? 0) +
+            Number(this.invoice.cgst_amt ?? 0) +
+            Number(this.invoice.utgst_amt ?? 0)
+        )
+      this.invoice.sub_total = Number(this.invoice.total_amt ?? 0)
+      var adjust = 0
       if (this.invoice.adjustments != 0) {
         if (this.invoice.adjustments.includes("-")) {
-          adjust = Number(this.invoice.adjustments.split("-")[1]);
+          adjust = Number(this.invoice.adjustments.split("-")[1])
         }
       }
       if (adjust != 0) {
         this.invoice.total =
           Number(this.invoice.sub_total ?? 0) +
           Number(Number(this.invoice.pocket_expense ?? 0)) -
-          Number(adjust);
+          Number(adjust)
       } else {
         this.invoice.total =
           Number(this.invoice.sub_total ?? 0) +
           Number(this.invoice.pocket_expense ?? 0) +
-          Number(this.invoice.adjustments);
+          Number(this.invoice.adjustments)
       }
       // }
       // this.invoice.taxble_amt = this.invoice.amount - Number(this.invoice.discount)
@@ -3620,79 +3814,79 @@ export default {
     destroyProposal(id) {
       if (confirm("Are you sure do you want to delete this item?")) {
         this.$store.dispatch("proposals/destroy", id).then(() => {
-          this.$store.dispatch("proposals/get", this.taskId);
-        });
+          this.$store.dispatch("proposals/get", this.taskId)
+        })
       }
     },
     destroyInvoice(id) {
       if (confirm("Are you sure do you want to delete this item?")) {
         this.$store.dispatch("invoice/destroy", id).then(() => {
-          this.$store.dispatch("invoice/get", this.taskId);
-        });
+          this.$store.dispatch("invoice/get", this.taskId)
+        })
       }
     },
 
     getPL(date, id) {
-      var dates = new Date(date);
+      var dates = new Date(date)
       if (id < 10) {
-        var p_date = "PL-0" + id + "-" + dates.getFullYear();
+        var p_date = "PL-0" + id + "-" + dates.getFullYear()
       } else {
-        var p_date = "PL-" + id + "-" + dates.getFullYear();
+        var p_date = "PL-" + id + "-" + dates.getFullYear()
       }
-      return p_date;
+      return p_date
     },
     getTotalAmt(amount) {
       if (amount) {
-        return amount.reduce((a, b) => a + b.amount, 0);
+        return amount.reduce((a, b) => a + b.amount, 0)
       }
     },
     getTotalTds(tds) {
-      return tds.reduce((a, b) => a + b.tds, 0);
+      return tds.reduce((a, b) => a + b.tds, 0)
     },
     timeFormat(date) {
-      var hours = new Date(date).getHours();
-      var minutes = new Date(date).getMinutes();
-      var noon = hours >= 12 ? " PM" : " AM";
-      hours = hours % 12;
-      hours = hours ? hours : 12; // the hour '0' should be '12'
-      minutes = minutes < 10 ? "0" + minutes : minutes;
+      var hours = new Date(date).getHours()
+      var minutes = new Date(date).getMinutes()
+      var noon = hours >= 12 ? " PM" : " AM"
+      hours = hours % 12
+      hours = hours ? hours : 12 // the hour '0' should be '12'
+      minutes = minutes < 10 ? "0" + minutes : minutes
 
-      var maketime = hours + ":" + minutes + noon;
-      var date = new Date(date).toDateString();
-      var fullyear = new Date(date).getFullYear();
-      var today = new Date().toDateString();
-      console.log(today);
+      var maketime = hours + ":" + minutes + noon
+      var date = new Date(date).toDateString()
+      var fullyear = new Date(date).getFullYear()
+      var today = new Date().toDateString()
+      console.log(today)
       if (date == today) {
-        return "today ," + maketime;
+        return "today ," + maketime
       } else {
-        return date; //.split(fullyear)[0] //+ ','+ maketime;
+        return date //.split(fullyear)[0] //+ ','+ maketime;
         // return date + ','+ maketime;
       }
     },
     getCommentUser(comments, users) {
-      let latest_index = comments.length - 1;
-      var string = "";
+      let latest_index = comments.length - 1
+      var string = ""
       if (latest_index !== -1) {
         // console.log(comments[latest_index]);
-        var user_id = comments[latest_index].user_id;
-        var username = "~ ";
+        var user_id = comments[latest_index].user_id
+        var username = "~ "
         users.forEach((element) => {
           if (element.id === user_id) {
-            username = username + element.name;
+            username = username + element.name
           }
-        });
+        })
         username =
-          username + ", " + this.timeFormat(comments[latest_index].created_at);
+          username + ", " + this.timeFormat(comments[latest_index].created_at)
         // string = comment
 
         // console.log(latest_index);
-        return username; //.substring(0,22)
+        return username //.substring(0,22)
       }
     },
     getLatestCommentLength(comments, length) {
-      var arr = comments;
+      var arr = comments
 
-      return arr.length;
+      return arr.length
     },
     getLatestComment(comments, length) {
       // var arr = comments
@@ -3733,23 +3927,23 @@ export default {
       //     });
       //     });
 
-      let latest_index = comments.length - 1;
-      var string = "";
+      let latest_index = comments.length - 1
+      var string = ""
 
       if (latest_index !== -1) {
-        var comment = comments[latest_index].comment;
-        string = comment;
+        var comment = comments[latest_index].comment
+        string = comment
 
         // console.log(latest_index);
-        return string;
+        return string
       }
     },
     getAssigneeString(users) {
-      var user = [];
+      var user = []
       users.forEach((element) => {
-        user.push(element.name);
-      });
-      return user.join(); //.substring(0,28);
+        user.push(element.name)
+      })
+      return user.join() //.substring(0,28);
     },
     // autofillClient() {
     //   var data = [];
@@ -3765,14 +3959,14 @@ export default {
       // const now = new Date(this.pdate);
       // this.pdate=now.getDate() + ' ' + months[now.getMonth()] + ' ' +  + now.getFullYear();
       // this.proposals.push({activity: 'Proposal', date: this.pdate, amount: this.pamount, name: this.pname, address: this.paddress, subject: this.psubject, pphrase: this.pphrase, pperson: this.pperson, pfootertitle: this.pfootertitle, pfooterdesc: this.pfooterdesc});
-      this.$refs["proposal-new-modal"].hide();
-      let arr = [];
+      this.$refs["proposal-new-modal"].hide()
+      let arr = []
       this.proposalFields.forEach((data) => {
         arr.push({
           title: data.title,
           description: data.desc,
-        });
-      });
+        })
+      })
       // this.pdate=this.currentDate;
       let data = {
         task_id: this.taskId,
@@ -3787,12 +3981,12 @@ export default {
         internal_notes: this.pnotes,
         proposalSection: arr,
         proposalFees: this.amountField,
-      };
+      }
       this.$store.dispatch("proposals/create", data).then(() => {
         this.$store.dispatch("proposals/get", this.taskId).then(() => {
-          console.log(this.allProposals);
-        });
-      });
+          console.log(this.allProposals)
+        })
+      })
       //     axios.post("https://api-office36ty.protracked.in/v1/proposal", {
       //       task_id: this.taskId,
       //       proposal_date: this.pdate,
@@ -3820,13 +4014,13 @@ export default {
       //     })
     },
     editProposal() {
-      var arr = [];
+      var arr = []
       this.proposalFields.forEach((element) => {
         arr.push({
           title: element.title,
           description: element.desc,
-        });
-      });
+        })
+      })
       // this.proposals.splice(this.editIndex, 1, {notes:this.pnotes,activity: 'Proposal', date: this.pdate, amount: this.pamount, pclientName: this.pclientName, address: this.paddress, subject: this.psubject, pphrase: this.pphrase,clientName:this.pclient, contactPerson:this.pcontact,pperson: this.pperson, pfootertitle: this.pfootertitle, pfooterdesc: this.pfooterdesc});
       const data = {
         task_id: this.taskId,
@@ -3841,98 +4035,96 @@ export default {
         internal_notes: this.pnotes,
         proposalSection: arr,
         proposalFees: this.amountField,
-      };
-      console.log(data);
+      }
+      console.log(data)
       this.$store
         .dispatch("proposals/proposal_update", {
           payload: data,
           id: this.proposal_edit_id,
         })
         .then(() => {
-          this.$refs["proposal-edit-modal"].hide();
-          this.$store.dispatch("proposals/get", this.taskId).then(() => { });
-          console.log(this.proposals.map((e) => e.total));
-        });
+          this.$refs["proposal-edit-modal"].hide()
+          this.$store.dispatch("proposals/get", this.taskId).then(() => {})
+          console.log(this.proposals.map((e) => e.total))
+        })
     },
     onRowClickedProposal(i) {
-      const { detailsRowProposal } = this;
+      const { detailsRowProposal } = this
       if (detailsRowProposal && detailsRowProposal !== i) {
-        detailsRowProposal._showDetails = false;
+        detailsRowProposal._showDetails = false
       }
 
-      this.$set(i, "_showDetails", !i._showDetails);
-      console.log(i);
+      this.$set(i, "_showDetails", !i._showDetails)
+      console.log(i)
       if (i.title == "invoice") {
-        this.invoice.editId = i.id;
+        this.invoice.editId = i.id
       } else if (i.title == "payment") {
-        this.payment.edit_id = i.id;
+        this.payment.edit_id = i.id
       } else {
-        this.proposal_edit_id = i.id;
+        this.proposal_edit_id = i.id
       }
-      this.detailsRowProposal = i;
+      this.detailsRowProposal = i
     },
     onRowClicked(item) {
-      const { detailsRow } = this;
+      const { detailsRow } = this
       if (detailsRow && detailsRow !== item) {
-        detailsRow._showDetails = false;
+        detailsRow._showDetails = false
       }
 
-      this.$set(item, "_showDetails", !item._showDetails);
-      if(item._showDetails){
+      this.$set(item, "_showDetails", !item._showDetails)
+      if (item._showDetails) {
+        this.detailsRow = item
 
-      
-      this.detailsRow = item;
+        this.taskId = item.id
+        if (item.subject.includes("Re:")) {
+          this.replySubject = item.subject
+        }
+        if (!item.subject.includes("Re:")) {
+          this.replySubject = "re: " + item.subject
+        }
+        this.$store.dispatch("proposals/get", item.id).then(() => {
+          console.log(this.allProposals)
+        })
+        this.$store.dispatch("comments/getMailComment", item.id).then(() => {})
+        this.$store.dispatch("invoice/get", item.id).then(() => {
+          // console.log(this.allProposals)
+        })
+        this.$store.dispatch("recordPayment/get", item.id)
 
-      this.taskId = item.id;
-      if (item.subject.includes("Re:")) {
-        this.replySubject = item.subject;
+        if (item.description) {
+          this.text = item.description.replace(/(<([^>]+)>)/gi, "")
+        }
+        this.$store.dispatch("tasks/getAttachments", item.id)
       }
-      if (!item.subject.includes("Re:")) {
-        this.replySubject = "re: " + item.subject;
-      }
-      this.$store.dispatch("proposals/get", item.id).then(() => {
-        console.log(this.allProposals);
-      });
-      this.$store.dispatch("comments/getMailComment", item.id).then(() => { });
-      this.$store.dispatch("invoice/get", item.id).then(() => {
-        // console.log(this.allProposals)
-      });
-      this.$store.dispatch("recordPayment/get", item.id);
-
-      if (item.description) {
-        this.text = item.description.replace(/(<([^>]+)>)/gi, "");
-      }
-      this.$store.dispatch('tasks/getAttachments',item.id)
-    }
       // this.parseHtml(item.description)
     },
     addTodo(id) {
       if (this.default_todo.length === 0) {
-        return;
+        return
       }
       // });
-      var c_todo = [];
+      var c_todo = []
       if (this.default_todo.length > 0) {
         this.default_todo.forEach((element) => {
-          c_todo.push(element);
-        });
+          c_todo.push(element)
+        })
       }
       if (this.additional_todo.length > 0) {
         this.additional_todo.forEach((element) => {
-          c_todo.push(element);
-        });
+          c_todo.push(element)
+        })
       }
       const data = {
         to_do: c_todo,
         task_id: id,
         user_ids: this.subtask_mentions,
-      };
+      }
       this.$store.dispatch("appTodo/store", data).then(() => {
-        this.$store.dispatch("appTodo/fetch");
-      });
+        this.$store.dispatch("appTodo/fetch")
+      })
       if (this.additional_todo.length > 1) {
         while (this.additional_todo.length > 0) {
-          this.additional_todo.pop();
+          this.additional_todo.pop()
         }
       }
     },
@@ -3940,23 +4132,20 @@ export default {
       // this.items = key === '@' ? this.mentions[0].dataSource : ""
     },
 
-   onApply(item, key, replacedWith) {
+    onApply(item, key, replacedWith) {
       let count = 0
-      this.subtask_mentions.forEach(element => {
-        if(element.id === item.id){
+      this.subtask_mentions.forEach((element) => {
+        if (element.id === item.id) {
           count++
         }
-      });
-      if(count === 0){
+      })
+      if (count === 0) {
         this.subtask_mentions.push({ name: item.name, id: item.id })
-      }else{
-
-        let index = this.subtask_mentions.findIndex(e => e.id === item.id)
-        if(index !=-1){
-          
-          this.subtask_mentions.splice(index,count)
+      } else {
+        let index = this.subtask_mentions.findIndex((e) => e.id === item.id)
+        if (index != -1) {
+          this.subtask_mentions.splice(index, count)
         }
-        
       }
 
       console.log(item, `has been replaced with ${replacedWith}`)
@@ -3964,9 +4153,9 @@ export default {
 
     parseHtml(item) {
       // return item;
-      var text = item.replace(/(<([^>]+)>)/gi, "");
-      this.text = text;
-      this.text = this.text.substr(0, 400);
+      var text = item.replace(/(<([^>]+)>)/gi, "")
+      this.text = text
+      this.text = this.text.substr(0, 400)
       // function extractContent(s) {
 
       // };
@@ -3982,154 +4171,154 @@ export default {
     add() {
       this.inputs.push({
         subtask_assignee: null,
-      });
+      })
       // console.log(this.inputs)
     },
     addAmount() {
       this.amountField.push({
         description: "",
         amount: null,
-      });
+      })
       // console.log(this.inputs)
     },
     addProposalField() {
       this.proposalFields.push({
         title: "",
         description: "",
-      });
+      })
       // console.log(this.inputs)
     },
     remove(index) {
-      this.inputs.splice(index, 1);
+      this.inputs.splice(index, 1)
     },
     removeAmount(index) {
-      this.amountField.splice(index, 1);
+      this.amountField.splice(index, 1)
     },
     removeProposal(index) {
-      this.proposalFields.splice(index, 1);
+      this.proposalFields.splice(index, 1)
     },
     SearchChange(assignee) {
       // alert(assignee)
       // console.log();
       // console.log(this.search.split('@'));
       if (assignee.includes("@")) {
-        this.search = assignee.split("@")[1];
+        this.search = assignee.split("@")[1]
       } else if (!assignee.includes("@")) {
       } else {
-        this.search = "";
+        this.search = ""
       }
     },
     openModal(modal, task) {
       // if(mod)
 
       if (modal.includes("_")) {
-        this.$refs[modal.split("_")[0]].show();
+        this.$refs[modal.split("_")[0]].show()
         // this.task
-        this.proposal_edit_id = modal.split("_")[2];
+        this.proposal_edit_id = modal.split("_")[2]
       } else {
-        this.$refs[modal].show();
+        this.$refs[modal].show()
       }
       if (task) {
-        this.todo_subtask = task.to_do;
-        this.todo_id_subtask = task.id;
-        this.task_id_subtask = task.task_id;
+        this.todo_subtask = task.to_do
+        this.todo_id_subtask = task.id
+        this.task_id_subtask = task.task_id
         // if(document.getElementById('subtask_todo'))
         // document.getElementById('subtask_todo').value = task.to_do
       }
     },
     autofillClient() {
-      var data = [];
+      var data = []
       for (
         let index = 0;
         index < this.$store.state.clients.all.length;
         index++
       ) {
-        data[index] = this.$store.state.clients.all[index].name;
+        data[index] = this.$store.state.clients.all[index].name
       }
 
-      var filtered = "";
+      var filtered = ""
       if (this.pclient != null) {
-        filtered = data.filter((data) => data === this.pclient.name);
+        filtered = data.filter((data) => data === this.pclient.name)
       }
       if (filtered.length > 0) {
-        console.log(filtered);
+        console.log(filtered)
         //this.pclientName='Centrik'//filtered2[0].replace(/['"]+/g, '');
-        this.pname = filtered[0].replace(/['"]+/g, "");
+        this.pname = filtered[0].replace(/['"]+/g, "")
       }
     },
     autofillContact() {
-      var data = [];
+      var data = []
       for (
         let index = 0;
         index < this.$store.state.contactPeople.allForLeads.length;
         index++
       ) {
-        data[index] = this.$store.state.contactPeople.allForLeads[index].name;
+        data[index] = this.$store.state.contactPeople.allForLeads[index].name
       }
-      var filtered = [];
+      var filtered = []
       if (this.pcontact != null) {
-        filtered = data.filter((data) => data === this.pcontact.name);
+        filtered = data.filter((data) => data === this.pcontact.name)
       }
       if (filtered.length > 0) {
-        this.pperson = filtered[0].replace(/['"]+/g, "");
+        this.pperson = filtered[0].replace(/['"]+/g, "")
       }
     },
     SetColor(id) {
       if (id === 1) {
-        return "#9e9e9e";
+        return "#9e9e9e"
       } else if (id === 2) {
-        return "#607d8b";
+        return "#607d8b"
       } else if (id === 3) {
-        return "#ffe821";
+        return "#ffe821"
       } else if (id === 4) {
-        return "#ff9800";
+        return "#ff9800"
       } else if (id === 5) {
-        return "#e91e63";
+        return "#e91e63"
       } else {
-        return "#fff";
+        return "#fff"
       }
     },
     SetText(id) {
       if (id === 1) {
-        return "  Lowest";
+        return "  Lowest"
       } else if (id === 2) {
-        return "  Low";
+        return "  Low"
       } else if (id === 3) {
-        return "  Medium";
+        return "  Medium"
       } else if (id === 4) {
-        return "  High";
+        return "  High"
       } else if (id === 5) {
-        return "  Highest";
+        return "  Highest"
       } else {
-        return "-";
+        return "-"
       }
     },
     SelectItem(item) {
       // item.toggleDetails
-      this.selected_item = item;
-      this.$set(this.selected_item);
+      this.selected_item = item
+      this.$set(this.selected_item)
     },
     open_datepicker() {
       if (document.getElementById("open_datepicker2").click) {
-        document.getElementById("open_datepicker2").style.display = "block";
+        document.getElementById("open_datepicker2").style.display = "block"
       }
       // console.log(document.getElementById('open_datepicker2'))
     },
 
     inline_due_date(due_date, task_id) {
-      var t = "info";
+      var t = "info"
       if (due_date == "") {
-        this.closed();
+        this.closed()
       }
       if (due_date != "") {
         var date = {
           due_date: due_date,
           task_id: task_id,
-        };
+        }
         if (this.$router.currentRoute.name == "leads") {
           this.$store.dispatch("leads/inline_update", { date }).then(() => {
             this.startDate2 = this.currentDate
-            this.$store.dispatch('leads/fetch');
+            this.$store.dispatch("leads/fetch")
 
             if (this.successMessage) {
               this.$toast.success(this.successMessage, {
@@ -4145,12 +4334,12 @@ export default {
                 closeButton: "button",
                 icon: true,
                 rtl: false,
-              });
+              })
             }
-          });
+          })
         } else {
           this.$store.dispatch("tasks/inline_update", { date }).then(() => {
-            this.$store.dispatch('tasks/fetch');
+            this.$store.dispatch("tasks/fetch")
             this.startDate2 = this.currentDate
 
             if (this.successMessage) {
@@ -4167,24 +4356,24 @@ export default {
                 closeButton: "button",
                 icon: true,
                 rtl: false,
-              });
+              })
             }
-          });
+          })
         }
       }
 
-      this.startDate2 = null;
+      this.startDate2 = null
     },
     inline_user_update(user_id, task_id) {
-      var t = "info";
+      var t = "info"
 
       var user_data = {
         user_id: user_id,
         task_id: task_id,
-      };
+      }
       if (this.$router.currentRoute.name == "leads") {
         this.$store.dispatch("leads/inline_update", { user_data }).then(() => {
-          this.$store.dispatch('leads/fetch');
+          this.$store.dispatch("leads/fetch")
 
           if (this.successMessage) {
             // this.$refs.snackbar[t](this.successMessage)
@@ -4201,12 +4390,12 @@ export default {
               closeButton: "button",
               icon: true,
               rtl: false,
-            });
+            })
           }
-        });
+        })
       } else {
         this.$store.dispatch("tasks/inline_update", { user_data }).then(() => {
-          this.$store.dispatch('tasks/fetch');
+          this.$store.dispatch("tasks/fetch")
 
           if (this.successMessage) {
             // this.$refs.snackbar[t](this.successMessage)
@@ -4223,43 +4412,43 @@ export default {
               closeButton: "button",
               icon: true,
               rtl: false,
-            });
+            })
           }
-        });
+        })
       }
     },
     handleHide(bvEvent) {
       if (!this.isCloseable) {
-        bvEvent.preventDefault();
+        bvEvent.preventDefault()
       } else {
-        this.$refs.dropdown.hide();
+        this.$refs.dropdown.hide()
       }
     },
     closeMe(due_date, task_id) {
-      this.isCloseable = true;
+      this.isCloseable = true
 
-      this.$refs.dropdown.hide();
+      this.$refs.dropdown.hide()
       if (due_date != null) {
-        this.inline_due_date(due_date, task_id);
+        this.inline_due_date(due_date, task_id)
       }
-      this.startDate2 = "";
+      this.startDate2 = ""
     },
     closed() {
-      this.isCloseable = true;
+      this.isCloseable = true
 
-      this.$refs.dropdown.hide();
+      this.$refs.dropdown.hide()
     },
     inlineUpdate(ev, type, index, priority, task_id) {
       // console.log(444);
-      var t = "info";
-      priority = index;
+      var t = "info"
+      priority = index
       var data = {
         id: index,
         task_id: task_id,
-      };
+      }
       if (this.$router.currentRoute.name == "leads") {
         this.$store.dispatch("leads/inline_update", { data }).then(() => {
-          this.$store.dispatch('leads/fetch');
+          this.$store.dispatch("leads/fetch")
 
           // if (this.$store.state.leads.isLoadingLeads == true) {
           // this.$refs.snackbar[t](this.successMessage)
@@ -4276,12 +4465,12 @@ export default {
             closeButton: "button",
             icon: true,
             rtl: false,
-          });
+          })
           // }
-        });
+        })
       } else {
         this.$store.dispatch("tasks/inline_update", { data }).then(() => {
-          this.$store.dispatch('tasks/fetch');
+          this.$store.dispatch("tasks/fetch")
 
           // if (this.$store.state.leads.isLoadingLeads == true) {
           // this.$refs.snackbar[t](this.successMessage)
@@ -4298,16 +4487,16 @@ export default {
             closeButton: "button",
             icon: true,
             rtl: false,
-          });
+          })
           // }
-        });
+        })
       }
 
       // console.log(type);
     },
     dropdownShouldOpen(search, VueSelect) {
       // console.log(VueSelect);
-      return VueSelect.closed;
+      return VueSelect.closed
       // if (search.length) {
       //   return VueSelect.open
       // }
@@ -4316,13 +4505,13 @@ export default {
     },
 
     onSearch(query) {
-      this.search = query;
-      this.offset = 0;
+      this.search = query
+      this.offset = 0
     },
     editLead(index) {
       // this.a = index;
       // editLead = index
-      router.push("leads/" + index);
+      router.push("leads/" + index)
       // router.router.push('leads/'+ index[0].id)
       // window.location.href = 'leads/'+ index[0].id
       // console.log(this.a[0]);/
@@ -4336,37 +4525,37 @@ export default {
     // },
 
     clearField() {
-      this.filterCategory = "";
-      this.filterContact = "";
-      this.filterSearch = "";
-      this.filterStatus = "";
-      this.filterUsers = "";
-      this.filtercompany = "";
-      this.FilterPriority = "";
-      this.filterBranch = "";
-      this.fetchAll();
+      this.filterCategory = ""
+      this.filterContact = ""
+      this.filterSearch = ""
+      this.filterStatus = ""
+      this.filterUsers = ""
+      this.filtercompany = ""
+      this.FilterPriority = ""
+      this.filterBranch = ""
+      this.fetchAll()
     },
     async onOpen() {
       if (this.hasNextPage) {
-        await this.$nextTick();
-        this.observer.observe(this.$refs.load);
+        await this.$nextTick()
+        this.observer.observe(this.$refs.load)
       }
     },
     onClose() {
-      this.observer.disconnect();
+      this.observer.disconnect()
     },
     async infiniteScroll([{ isIntersecting, target }]) {
       if (isIntersecting) {
-        const ul = target.offsetParent;
-        const scrollTop = target.offsetParent.scrollTop;
-        this.limit += 10;
-        await this.$nextTick();
-        ul.scrollTop = scrollTop;
+        const ul = target.offsetParent
+        const scrollTop = target.offsetParent.scrollTop
+        this.limit += 10
+        await this.$nextTick()
+        ul.scrollTop = scrollTop
       }
     },
 
     filter(event) {
-      console.log(this.filterStatus);
+      console.log(this.filterStatus)
       if (this.$router.currentRoute.name == "leads") {
         this.$store
           .dispatch("leads/filter", {
@@ -4380,11 +4569,11 @@ export default {
             contact: this.filterContact,
           })
           .then(() => {
-            console.log(this.successMessage);
+            console.log(this.successMessage)
           })
           .catch(() => {
-            console.log(this.errorMessage);
-          });
+            console.log(this.errorMessage)
+          })
       } else {
         this.$store
           .dispatch("tasks/filter", {
@@ -4398,44 +4587,43 @@ export default {
             contact: this.filterContact,
           })
           .then(() => {
-            console.log(this.successMessage);
+            console.log(this.successMessage)
           })
           .catch(() => {
-            console.log(this.errorMessage);
-          });
+            console.log(this.errorMessage)
+          })
       }
     },
-   
+
     openFilter() {
-      this.isFilterActive = !this.isFilterActive;
+      this.isFilterActive = !this.isFilterActive
     },
-   
+
     fetchAll() {
-    
       //console.log(this.$router.currentRoute.params.status);
       if (this.$router.currentRoute.params.status) {
         if (this.$router.currentRoute.name == "tasks") {
           this.$store.dispatch(
             "tasks/get",
             this.$router.currentRoute.params.lead_id
-          );
+          )
         } else {
           this.$store.dispatch(
             "leads/get",
             this.$router.currentRoute.params.lead_id
-          );
+          )
         }
       }
       if (!this.$router.currentRoute.params.status) {
         if (this.$router.currentRoute.name == "tasks") {
-          this.$store.dispatch("tasks/fetch");
+          this.$store.dispatch("tasks/fetch")
         } else {
-          this.$store.dispatch("leads/fetch");
+          this.$store.dispatch("leads/fetch")
         }
       }
     },
     formatDate(date) {
-      const dates = new Date(date);
+      const dates = new Date(date)
 
       const ms = [
         "Jan",
@@ -4450,26 +4638,24 @@ export default {
         "Oct",
         "Nov",
         "Dec",
-      ];
-      return `${dates.getDate()} ${ms[dates.getMonth()]
-        } ${dates.getFullYear()}`;
+      ]
+      return `${dates.getDate()} ${ms[dates.getMonth()]} ${dates.getFullYear()}`
     },
     DaysLeft(start, end) {
       // const startDate = start
-      const endDate = end;
+      const endDate = end
       if (new Date(endDate).getDate() === new Date().getDate()) {
-
-        var diffInMs = new Date(endDate) - new Date();
-        diffInMs = Math.round(diffInDays);
+        var diffInMs = new Date(endDate) - new Date()
+        diffInMs = Math.round(diffInDays)
         // eslint-disable-next-line no-bitwise
-        return diffInMs | 0;
+        return diffInMs | 0
       } else {
-        var diffInMs = new Date(endDate) - new Date();
+        var diffInMs = new Date(endDate) - new Date()
 
-        var diffInDays = diffInMs / (1000 * 60 * 60 * 24);
-        diffInDays = Math.round(diffInDays);
+        var diffInDays = diffInMs / (1000 * 60 * 60 * 24)
+        diffInDays = Math.round(diffInDays)
         // eslint-disable-next-line no-bitwise
-        return diffInDays | 0;
+        return diffInDays | 0
       }
       // const diffInMs = new Date(endDate) - new Date();
       // var diffInDays = diffInMs / (1000 * 60 * 60 * 24);
@@ -4477,7 +4663,7 @@ export default {
       // // eslint-disable-next-line no-bitwise
       // return diffInDays | 0;
     },
-   
+
     // convertToTask() {
     //   const task = {
     //     type: 'task',
@@ -4489,45 +4675,45 @@ export default {
       if (confirm("Are you sure do you want to delete this item?")) {
         if (this.$router.currentRoute.name == "leads") {
           this.$store.dispatch("leads/destroy", id).then(() => {
-            this.fetchAll();
-          });
+            this.fetchAll()
+          })
         } else {
           this.$store.dispatch("tasks/destroy", id).then(() => {
-            this.fetchAll();
-          });
+            this.fetchAll()
+          })
         }
       }
     },
     buttonVariant(status) {
       if (status == "open") {
-        return "primary";
+        return "primary"
       } else if (status == "completed") {
-        return "success";
+        return "success"
       } else if (status == "invoiced") {
-        return "warning";
+        return "warning"
       } else if (status == "closed") {
-        return "secondary";
+        return "secondary"
       } else {
-        return "warning";
+        return "warning"
       }
     },
     priorityVariant(priority) {
       if (priority === 1) {
-        return "secondary";
+        return "secondary"
       }
       if (priority === 2) {
-        return "warning";
+        return "warning"
       }
       if (priority === 3) {
-        return "info";
+        return "info"
       }
       if (priority === 4) {
-        return "danger";
+        return "danger"
       }
       if (priority === 5) {
-        return "success";
+        return "success"
       }
-      return "";
+      return ""
 
       // return priority === 1 ? 'secondary'
       //   // eslint-disable-next-line no-nested-ternary
@@ -4545,66 +4731,66 @@ export default {
   watch: {
     dropClient(oldClient, newClient) {
       if (newClient === false) {
-        document.body.removeEventListener("click", this.clickEventClient);
+        document.body.removeEventListener("click", this.clickEventClient)
       }
     },
     dropTask(oldTask, newTask) {
       if (newTask === false) {
-        document.body.removeEventListener("click", this.clickEventTask);
+        document.body.removeEventListener("click", this.clickEventTask)
       }
     },
   },
   watch: {
     dropClient(oldClient, newClient) {
       if (newClient === false) {
-        document.body.removeEventListener("click", this.clickEventClient);
+        document.body.removeEventListener("click", this.clickEventClient)
       }
     },
     dropTask(oldTask, newTask) {
       if (newTask === false) {
-        document.body.removeEventListener("click", this.clickEventTask);
+        document.body.removeEventListener("click", this.clickEventTask)
       }
     },
   },
   beforeDestroy() {
-    window.removeEventListener("click", this.closed());
+    window.removeEventListener("click", this.closed())
   },
   setup() {
-    const isCreateSidebarActive = ref(false);
-    const isEditSidebarActive = ref(false);
-    const ClientisEditSidebarActive = ref(false);
-    const editItem = ref({});
-    const editItemClient = ref({});
-    const isFilterActive = ref(false);
-    const isSearchMessagesActive = ref(false);
+    const isCreateSidebarActive = ref(false)
+    const isEditSidebarActive = ref(false)
+    const ClientisEditSidebarActive = ref(false)
+    const editItem = ref({})
+    const editItemClient = ref({})
+    const isFilterActive = ref(false)
+    const isSearchMessagesActive = ref(false)
 
-    let statusOptions = ["Open", "Completed", "Invoiced", "Closed"];
+    let statusOptions = ["Open", "Completed", "Invoiced", "Closed"]
 
     const { refFormObserver, getValidationState, resetForm } = formValidation(
       resetForm
-    );
+    )
     // const editLead = ref({})
-    const perPage = ref(10);
+    const perPage = ref(10)
     // const totalCount = ref(store.state.emails.all.length)
-    const currentPage = ref(1);
-    const perPageOptions = [10, 25, 50, 100];
+    const currentPage = ref(1)
+    const perPageOptions = [10, 25, 50, 100]
     // const toast = useToast();
     const perfectScrollbarSettings = {
       maxScrollbarLength: 150,
-    };
+    }
     const updateTaskIsCompleted = (taskData) => {
       // eslint-disable-next-line no-param-reassign
-      taskData.isCompleted = !taskData.isCompleted;
-      updateTask(taskData);
-    };
+      taskData.isCompleted = !taskData.isCompleted
+      updateTask(taskData)
+    }
     const updateTask = (taskData) => {
       store
         .dispatch("appTodo/update", { payload: taskData, id: taskData.id })
         .then(() => {
           // eslint-disable-next-line no-use-before-define
-          store.dispatch("appTodo/fetch");
-        });
-    };
+          store.dispatch("appTodo/fetch")
+        })
+    }
 
     return {
       // Sidebar
@@ -4627,7 +4813,7 @@ export default {
       isSearchMessagesActive,
       isFilterActive,
       statusOptions,
-    };
+    }
   },
-};
+}
 </script>

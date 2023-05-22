@@ -112,7 +112,7 @@
                 </validation-provider>
               </b-col>
             </b-row>
-            <div v-if="formData.task != null" class="col-sm-12">
+            <div v-if="formData.task != null">
               <table class="client-details-table table">
                 <thead>
                   <tr>
@@ -143,92 +143,80 @@
                 <b-form-group>
                   <!-- <quill-editor v-model="tempFields[0].description"
                                 :options="editorOption"></quill-editor> -->
-                                <div class="border-l" style="">
-                                  <div class="d-flex flex-column">
-                                    <div
-                                      class="d-flex justify-content-between align-items-center p-1 border-bottom-light bg-light"
-                                    >
-                                      <div>Attachment</div>
-                                      <div>
-                                        <input
-                                          type="file"
-                                          ref="file_task"
-                                          style="display: none;"
-                                          @change="uploadFile" 
-                
-                                        />
-                                        <b-dropdown
-                                          id="file_drop"
-                                          class=""
-                                          style="width: 50%;"
-                                          variant="primary"
-                                        >
-                                          <template #button-content>
-                                            <span class="text-capitalize">
-                                              Choose File
-                                            </span>
-                                          </template>
-                                          <b-dropdown-item @click="$refs.file_task.click()"
-                                            ><img
-                                              class="mr-1"
-                                              :src="browseIcon"
-                                              width="25px"
-                                            />Browse</b-dropdown-item
-                                          >
-                                          <b-dropdown-item
-                                            ><img
-                                              class="mr-1"
-                                              :src="excelIcon"
-                                              width="25px"
-                                              data-type="1"
-                                            />Google Sheets</b-dropdown-item
-                                          >
-                                          <b-dropdown-item
-                                            ><img
-                                              class="mr-1"
-                                              :src="wordIcon"
-                                              width="25px"
-                                              data-type="2"
-                                            />Google Docs</b-dropdown-item
-                                          >
-                                        
-                                        </b-dropdown>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div
-                                    class="d-flex justify-content-between align-items-center p-1"
-                                  >
-                                  <div v-if="file_name && fileLinks.length === 0 ">No file selected </div>
-                                    <div v-else-if="file_name && fileLinks">
-                                      
-                                      <div v-for="(file, index) in fileLinks" :key="index" class="d-flex justify-content-between">
-                                        <span v-if="file_name.name === file.fileName">
-                                          {{
-                                            file.fileName
-                                          }}
-                                          <feather-icon icon="XIcon" class="cursor-pointer"
-                                            @click="removes3(file.url, index)" />
-                                          </span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div v-else>No file selected </div>
-                                    <b-media-aside class="mr-0">
-                                      <b-img
-                                        v-if="file !== null && previewImage != null"
-                                        id="ref_image_base_64"
-                                        ref="refPreviewEl"
-                                        v-model="image"
-                                        :src="previewImage"
-                                        height="40"
-                                        width="40"
-                                        rounded="circle"
-                                        class="border border-l"
-                                      />
-                                    </b-media-aside>
-                                  </div>
-                                </div>
+                  <div class="border-l" style="">
+                    <div class="d-flex flex-column">
+                      <div
+                        class="d-flex justify-content-between align-items-center p-1 border-bottom-light bg-light"
+                      >
+                        <div>Attachment</div>
+                        <div>
+                          <input
+                            type="file"
+                            ref="file_task"
+                            style="display: none;"
+                            @change="uploadFile"
+                          />
+                          <b-dropdown
+                            id="file_drop"
+                            class=""
+                            style="width: 50%;"
+                            variant="primary"
+                          >
+                            <template #button-content>
+                              <span class="text-capitalize">
+                                Choose File
+                              </span>
+                            </template>
+                            <b-dropdown-item @click="$refs.file_task.click()"
+                              ><img
+                                class="mr-1"
+                                :src="browseIcon"
+                                width="25px"
+                              />Browse</b-dropdown-item
+                            >
+                          </b-dropdown>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="d-flex justify-content-between align-items-center p-1"
+                    >
+                      <div v-if="file_name && fileLinks.length === 0">
+                        No file selected
+                      </div>
+                      <div v-else-if="file_name && fileLinks">
+                        <div
+                          v-for="(file, index) in fileLinks"
+                          :key="index"
+                          class="d-flex justify-content-between"
+                        >
+                          <span v-if="file_name.name === file.fileName">
+                            {{ file.fileName }}
+                            <feather-icon
+                              icon="XIcon"
+                              class="cursor-pointer"
+                              @click="removes3(file.url, index)"
+                            />
+                          </span>
+                        </div>
+                      </div>
+
+                      <div v-else>No file selected</div>
+                      <b-media-aside class="mr-0">
+                        <b-img
+                          v-if="file !== null && previewImage != null"
+                          id="ref_image_base_64"
+                          ref="refPreviewEl"
+                          v-model="image"
+                          :src="previewImage"
+                          height="40"
+                          width="40"
+                          rounded="circle"
+                          class="border border-l"
+                        />
+                      </b-media-aside>
+                    </div>
+                  </div>
                 </b-form-group>
               </b-col>
             </b-row>
@@ -369,19 +357,16 @@ export default {
     const year = date.getFullYear()
     return {
       task: null,
-      description: "",
+      // description: "",
       users: [],
       currentDate: `${year}-0${month}-${day}`,
       file_name: [],
       date: `${year}-0${month}-${day}`,
       browseIcon: browseIcon,
-      slideIcon: slideIcon,
-      wordIcon: wordIcon,
-      excelIcon: excelIcon,
       file_name: null,
       file: null,
       previewImage: null,
-      allFile:[]
+      allFile: [],
     }
   },
   directives: {
@@ -399,7 +384,7 @@ export default {
       return this.$store.state.users.all.filter((e) => e.status === "active")
     },
     fileLinks() {
-      let data = this.$store.state.attachments.links;
+      let data = this.$store.state.attachments.links
       return data
     },
   },
@@ -407,74 +392,72 @@ export default {
     uploadFileS3(file) {
       let data = {
         attach: file ? file : "null",
-      };
-      this.$store.dispatch('attachments/add', { data: data }).then(() => {
-
-        resolve();
-
-      }).catch(() => {
-
-
-      })
+      }
+      this.$store
+        .dispatch("attachments/add", { data: data })
+        .then(() => {
+          resolve()
+        })
+        .catch(() => {})
     },
     removes3(file, i) {
-      console.log('bbbb')
+      console.log("bbbb")
       var data = {
         attach_url: file ?? "null",
-      };
-      this.$store.dispatch('attachments/remove', { data: data }).then(() => {
-
+      }
+      this.$store.dispatch("attachments/remove", { data: data }).then(() => {
         this.$store.state.attachments.links.splice(i, 1)
-        const index = this.allFile.findIndex((file) => file.name === this.file_name.name);
+        const index = this.allFile.findIndex(
+          (file) => file.name === this.file_name.name
+        )
         if (index !== -1) {
-          this.allFile.splice(index, 1);
+          this.allFile.splice(index, 1)
         }
-        this.file_name=null;
-
+        this.file_name = null
       })
     },
     async uploadFile(e) {
-      let image = e.target.files;
+      let image = e.target.files
       let image_name = []
-      const filePathsPromises = [];
-    image.forEach(file => {
-      filePathsPromises.push(this.base64(file));
-      image_name.push(file.name)
-      // filePathsPromises.push(file.name)
-    });
-    const filePaths = await Promise.all(filePathsPromises,image_name);
-    const mappedFiles = filePaths.map((base64File,image_name) => ({
-       file: base64File,
-       name:image[image_name].name,
-       type:'attachmentsType'
-       }));
+      const filePathsPromises = []
+      image.forEach((file) => {
+        filePathsPromises.push(this.base64(file))
+        image_name.push(file.name)
+        // filePathsPromises.push(file.name)
+      })
+      const filePaths = await Promise.all(filePathsPromises, image_name)
+      const mappedFiles = filePaths.map((base64File, image_name) => ({
+        file: base64File,
+        name: image[image_name].name,
+        type: "attachmentsType",
+      }))
 
-       if(this.file_name){
-        let index = this.fileLinks.findIndex((e)=>e.fileName === this.file_name.name);
-        this.fileLinks.splice(index,1);
-        let index2 = this.allFile.findIndex((e)=>e.name === this.file_name.name);
-        this.allFile.splice(index2,1);
-       }
+      if (this.file_name) {
+        let index = this.fileLinks.findIndex(
+          (e) => e.fileName === this.file_name.name
+        )
+        this.fileLinks.splice(index, 1)
+        let index2 = this.allFile.findIndex(
+          (e) => e.name === this.file_name.name
+        )
+        this.allFile.splice(index2, 1)
+      }
 
-       this.file_name = mappedFiles[0]
+      this.file_name = mappedFiles[0]
 
+      this.allFile.push(this.file_name)
 
-       
-       this.allFile.push(this.file_name)
-
-    console.log(mappedFiles);
-    this.uploadFileS3(mappedFiles)
-    e.target.value = ''
-
-
+      console.log(mappedFiles)
+      this.uploadFileS3(mappedFiles)
+      e.target.value = ""
     },
     base64(file) {
-        return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-      });
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onload = () => resolve(reader.result)
+        reader.onerror = (error) => reject(error)
+      })
     },
     isNumber(ev) {
       const keysAllowed = [
@@ -519,7 +502,6 @@ export default {
 
     resetFormData() {
       this.formData.task = null
-      this.formData.description = null
 
       this.formData.expense = null
       this.formData.users = this.users_data.filter(
@@ -537,44 +519,60 @@ export default {
       this.resetFormData()
     },
     onSubmit() {
-      let users = []
+      const users = []
       this.formData.users.forEach((element) => {
         users.push({
           user_id: element.id,
         })
       })
       console.log(this.formData)
+      const file = []
+      this.fileLinks.forEach((elem) => {
+        file.push({
+          attachment_url: elem.url,
+          file_name: elem.fileName,
+        })
+      })
       const data = {
         task_id: this.formData.task.id,
-        description: this.formData.description,
-        date: this.formData.date,
-        expense: this.formData.expense,
-        users: users,
+        attachment: file,
+        company_id: this.formData.task.company_id,
+        type: "task",
       }
-      this.$store
-        .dispatch("comments/store", data)
-        .then(() => {
-          // this.$store.dispatch("expenses/fetch")
-          this.$refs["files-modal"].hide()
-          this.$toast.success("Added Successfully!", {
-            position: "bottom-left",
-            timeout: 5000,
-            closeOnClick: true,
-            pauseOnFocusLoss: true,
-            pauseOnHover: true,
-            draggable: true,
-            draggablePercent: 0.6,
-            showCloseButtonOnHover: false,
-            hideProgressBar: true,
-            closeButton: "button",
-            icon: true,
-            rtl: false,
-          })
-          this.resetFormData()
+      console.log(this.fileLinks)
+      // attachment_url
+      // file_name
+      // comment: this.formData.description,
+      // date: this.formData.date,
+      // expense: this.formData.expense,
+      // users: users,
+      // this.$store
+      //   .dispatch("comments/store", {
+      //     payload: data,
+      //     id: this.formData.task_id,
+      //     // comment: this.formData.description
+      //   })
+      this.$store.dispatch("attachments/store", data).then(() => {
+        // this.$store.dispatch("expenses+/fetch")
+        this.$refs["files-modal"].hide()
+        this.$toast.success("Added Successfully!", {
+          position: "bottom-left",
+          timeout: 5000,
+          closeOnClick: true,
+          pauseOnFocusLoss: true,
+          pauseOnHover: true,
+          draggable: true,
+          draggablePercent: 0.6,
+          showCloseButtonOnHover: false,
+          hideProgressBar: true,
+          closeButton: "button",
+          icon: true,
+          rtl: false,
         })
-        .then(() => {
-          this.$store.dispatch("comments/fetch")
-        })
+        // this.$store.dispatch("tasks/getAttachments", data.task_id).then(() => {
+        //   this.resetFormData()
+        // })
+      })
     },
   },
   setup() {
@@ -589,8 +587,7 @@ export default {
       task: null,
       date: `${year}-0${month}-${day}`,
       expense: null,
-      description: "",
-
+      // description: "",
       //   email: "",
     }
 

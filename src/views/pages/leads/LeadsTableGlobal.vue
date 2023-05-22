@@ -325,6 +325,7 @@
                             <feather-icon icon="PlusIcon" size="18" />
                           </div>
                           <div v-show=" dropTask === true " ref="taskDrop" class="position-absolute z-3 drop">
+                          
                             <div class="border-l">
                               <!-- <b-form @submit.prevent="handleSubmit(UpdateProfile)"> -->
 
